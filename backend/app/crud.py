@@ -85,7 +85,7 @@ async def create_or_update_temp_tank_logs(request: Request, db: Session = Depend
             db.add(db_latest_tank_log_temp)
         
         db.commit()
-        db.refresh(db_latest_tank_log_temp)
+        # db.refresh()
         return "Record Inserted/Updated Successfully"
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
