@@ -1,0 +1,31 @@
+.DS_Store
+node_modules
+package-lock.json
+/src/env
+/dist
+.nvmrc
+
+/tests/e2e/reports/
+selenium-debug.log
+
+local env files
+.env.*.local
+.env.staging
+.env.staging2
+.env.production
+/venv
+venv
+# Log files
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Editor directories and files
+.idea
+.vscode
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw*
+vetur*

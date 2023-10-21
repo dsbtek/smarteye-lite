@@ -36,59 +36,62 @@ def read_user(user_id: int, db: Session = Depends(get_db)):
 @router.post("/tank-logs-temp/")
 async def create_or_update_temp_tank_logs(request: Request, db: Session = Depends(get_db)):
     try:
-        tank_data = await request.json()
+        tank_datas = await request.json()
     except ValueError:
         raise HTTPException(status_code=400, detail="Invalid JSON data in the request body")
-    if not isinstance(tank_data, list):
+    if not isinstance(tank_datas, list):
         raise HTTPException(status_code=400, detail="Input should be a list")
-    # tank_data = tank_log_temp.tank_data
-    if len(tank_data) != 13:
-        raise HTTPException(status_code=400, detail="Invalid payload format. Expected a list of 13 items.")
-    
-    local_id, date_time, multicont_polling_address, tank_index, temp_1, temp_2, temp_3, temp_4, temp_5, avg_temp, vol, tcv, tank_id = tank_data
-    existing_latest_tank_log = db.query(models.TankTemperature).filter(models.TankTemperature.tank_id == tank_id).first()
-    try:
-        if existing_latest_tank_log:
-            # Update the existing LatestTankLogTemp
-            update_data = {
-                models.TankTemperature.date_time: date_time,
-                models.TankTemperature.multicont_polling_address: multicont_polling_address,
-                models.TankTemperature.tank_index: tank_index,
-                models.TankTemperature.temp_1: temp_1,
-                models.TankTemperature.temp_2: temp_2,
-                models.TankTemperature.temp_3: temp_3,
-                models.TankTemperature.temp_4: temp_4,
-                models.TankTemperature.temp_5: temp_5,
-                models.TankTemperature.avg_temp: avg_temp,
-                models.TankTemperature.tcv: tcv,
-                models.TankTemperature.local_id: local_id,
-                models.TankTemperature.vol: vol
-            }
-            db.query(models.TankTemperature).filter(models.TankTemperature.tank_id == tank_id).update(update_data)
-        else:
-            # Create a new LatestTankLogTemp
-            db_latest_tank_log_temp = models.TankTemperature(
-                local_id=local_id,
-                date_time=date_time,
-                multicont_polling_address=multicont_polling_address,
-                tank_index=tank_index,
-                temp_1=temp_1,
-                temp_2=temp_2,
-                temp_3=temp_3,
-                temp_4=temp_4,
-                temp_5=temp_5,
-                avg_temp=avg_temp,
-                tcv=tcv,
-                tank_id=tank_id,
-                vol=vol,
-            )
-            db.add(db_latest_tank_log_temp)
+
+    for tank_data in tank_datas:
+        local_id, date_time, multicont_polling_address, tank_index, temp_1, temp_2, temp_3, temp_4, temp_5, avg_temp, vol, tcv, tank_id, height, capacity = tank_data
+        existing_latest_tank_log = db.query(models.TankTemperature).filter(models.TankTemperature.tank_id == tank_id).first()
+        try:
+            if existing_latest_tank_log:
+                # Update the existing LatestTankLogTemp
+                update_data = {
+                    models.TankTemperature.date_time: date_time,
+                    models.TankTemperature.multicont_polling_address: multicont_polling_address,
+                    models.TankTemperature.tank_index: tank_index,
+                    models.TankTemperature.temp_1: temp_1,
+                    models.TankTemperature.temp_2: temp_2,
+                    models.TankTemperature.temp_3: temp_3,
+                    models.TankTemperature.temp_4: temp_4,
+                    models.TankTemperature.temp_5: temp_5,
+                    models.TankTemperature.avg_temp: avg_temp,
+                    models.TankTemperature.tcv: tcv,
+                    models.TankTemperature.local_id: local_id,
+                    models.TankTemperature.vol: vol,
+                    models.TankTemperature.height: height,
+                    models.TankTemperature.capacity: capacity
+                }
+                db.query(models.TankTemperature).filter(models.TankTemperature.tank_id == tank_id).update(update_data)
+            else:
+                # Create a new LatestTankLogTemp
+                db_latest_tank_log_temp = models.TankTemperature(
+                    local_id=local_id,
+                    date_time=date_time,
+                    multicont_polling_address=multicont_polling_address,
+                    tank_index=tank_index,
+                    temp_1=temp_1,
+                    temp_2=temp_2,
+                    temp_3=temp_3,
+                    temp_4=temp_4,
+                    temp_5=temp_5,
+                    avg_temp=avg_temp,
+                    tcv=tcv,
+                    tank_id=tank_id,
+                    vol=vol,
+                    height=height,
+                    capacity=capacity
+                )
+                db.add(db_latest_tank_log_temp)
+            db.commit()
+            # db.refresh()
+        except Exception as e:
+            continue
         
-        db.commit()
-        # db.refresh()
-        return "Record Inserted/Updated Successfully"
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
+    return "Record Inserted/Updated Successfully"
+    
 
 
 
