@@ -1,4 +1,3 @@
-# smarteye-lite
 
 # smarteye-lite Installation Guide
 

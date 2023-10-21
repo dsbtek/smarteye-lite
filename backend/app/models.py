@@ -66,3 +66,7 @@ class TankTemperature(Base):
     tank_id = Column(Integer)
     vol = Column(Float)
     tcv = Column(Float)
+    height = Column(Float)
+    capacity = Column(Float)
+
+    
