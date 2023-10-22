@@ -14,6 +14,11 @@
       </div>
 
       <div class="fuel-info-item">
+        <p>Capacity: </p>
+        <p>{{ tankData.capacity }}L</p>
+      </div>
+
+      <div class="fuel-info-item">
         <p>Volume: </p>
         <p>{{ tankData.vol }}L</p>
       </div>
@@ -81,7 +86,7 @@ export default {
     if (this.tankData && this.tankData.vol !== undefined && this.tankData.capacity !== undefined) {
       return ((this.tankData.vol / this.tankData.capacity) * 100).toFixed();
     }
-    return 0; // Return a default value if the data is not available
+    return 0;
   },
 },
 };
@@ -97,7 +102,7 @@ export default {
   padding-top: 20px;
   border-radius: 10px;
   width: 300px;
-  height: 600px;
+  height: 475px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   margin-bottom: 3%;
 }
@@ -143,7 +148,7 @@ p {
   align-items: center;
   justify-content: space-between;
   width: 96%;
-  height: 30px;
+  height: 1em;
   border: #ccc 1px solid;
   padding: 5px;
 }
@@ -176,7 +181,6 @@ p {
     }
   }
 
-  /* Apply the fill animation to the rect element */
   .liquid-rect {
     animation: fillAnimation 2s ease;
   }
