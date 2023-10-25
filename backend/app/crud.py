@@ -43,7 +43,7 @@ async def create_or_update_temp_tank_logs(request: Request, db: Session = Depend
         raise HTTPException(status_code=400, detail="Input should be a list")
 
     for tank_data in tank_datas:
-        local_id, date_time, multicont_polling_address, tank_index, temp_1, temp_2, temp_3, temp_4, temp_5, avg_temp, vol, tcv, tank_id, height, capacity = tank_data
+        local_id, date_time, multicont_polling_address, tank_index, temp_1, temp_2, temp_3, temp_4, temp_5, avg_temp, tank_id, vol, tcv,  height, capacity = tank_data
         existing_latest_tank_log = db.query(models.TankTemperature).filter(models.TankTemperature.tank_id == tank_id).first()
         try:
             if existing_latest_tank_log:
