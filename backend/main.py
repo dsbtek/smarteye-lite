@@ -8,7 +8,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from app.database import create_tables
 from app import crud, models
 app = FastAPI()
-origins = ["*"]
+origins = ["http://localhost","*"]
 app.add_middleware(
     CORSMiddleware,
     allow_origins=origins,
