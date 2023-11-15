@@ -15,52 +15,52 @@
 
       <div class="fuel-info-item">
         <p>Capacity: </p>
-        <p>{{ tankData.capacity }}L</p>
+        <p>{{ tankData.capacity }} L</p>
       </div>
 
       <div class="fuel-info-item">
         <p>Volume: </p>
-        <p>{{ tankData.vol }}L</p>
+        <p>{{ tankData.vol }} L</p>
       </div>
 
       <div class ="fuel-info-item">
         <p>TCV: </p>
-        <p>{{ tankData.tcv }}L</p>
+        <p>{{ tankData.tcv }} L</p>
       </div>
 
       <div class="fuel-info-item">
         <p>Height: </p>
-        <p>{{ tankData.height }}L</p>
+        <p>{{ tankData.height }} mm</p>
       </div>
 
       <div class="fuel-info-item">
         <p>Av. Temp: </p>
-        <p>{{ tankData.avg_temp }}&#8451;</p>
+        <p>{{ tankData.avg_temp }} &#8451;</p>
       </div>
 
       <div class="fuel-info-item">
         <p>Temp 1: </p>
-        <p>{{ tankData.temp_1 }}&#8451;</p>
+        <p>{{ tankData.temp_1 }} &#8451;</p>
       </div>
 
       <div class="fuel-info-item">
         <p>Temp 2: </p>
-        <p>{{ tankData.temp_2 }}&#8451;</p>
+        <p>{{ tankData.temp_2 }} &#8451;</p>
       </div>
 
       <div class="fuel-info-item">
         <p>Temp 3: </p>
-        <p>{{ tankData.temp_3 }}&#8451;</p>
+        <p>{{ tankData.temp_3 }} &#8451;</p>
       </div>
 
       <div class="fuel-info-item">
         <p>Temp 4: </p>
-        <p>{{ tankData.temp_4 }}&#8451;</p>
+        <p>{{ tankData.temp_4 }} &#8451;</p>
       </div>
 
       <div class="fuel-info-item fuel-info-item-last">
         <p>Temp 5: </p>
-        <p>{{ tankData.temp_5 }}&#8451;</p>
+        <p>{{ tankData.temp_5 }} &#8451;</p>
       </div>
     </div>
   </div>
