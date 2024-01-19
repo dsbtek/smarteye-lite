@@ -317,12 +317,6 @@ class UtilityClass {
     return element;
   }
 
-  // static css(selector, styleString) {
-  //   const rule = `${selector} { ${styleString} }`;
-  //   const index = sheet.cssRules.length;
-
-  //   sheet.insertRule(rule, index);
-  // }
 
   static offSpinner(element) {
     if (!element) return;
@@ -345,19 +339,6 @@ class UtilityClass {
     }
   }
 
-  /* 
-       * Recursively stringifies the values of an object, space separated, in an
-       * SSR safe deterministic way (keys are storted before stringification)
-      
-       *   ex:
-       *     { b: 3, c: { z: 'zzz', d: null, e: 2 }, d: [10, 12, 11], a: 'one' }
-       *   becomes
-       *     'one 3 2 zzz 10 12 11'
-      
-       * Primatives (numbers/strings) are returned as-is
-       * Null and undefined values are filtered out
-       * Dates are converted to their native string format
-    */
   static stringifyObjectValues(val) {
     if (typeof val === "undefined" || val === null) {
       /* istanbul ignore next */
@@ -365,8 +346,7 @@ class UtilityClass {
     }
 
     if (val instanceof Object && !(val instanceof Date)) {
-      // Arrays are also object, and keys just returns the array indexes
-      // Date objects we convert to strings
+
       return (
         (0, Object.keys)(val)
           .sort()

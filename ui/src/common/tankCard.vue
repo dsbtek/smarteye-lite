@@ -2,66 +2,47 @@
   <div class="fuel-card">
     <div class="circle-container">
       <TankLevelImage
-            :volume="tankData.vol"
-            :capacity="tankData.capacity"
+            :volume="tankData?.vol"
+            :capacity="tankData?.capacity"
             :percent="fillPercentage"
           />
     </div>
     <div class="fuel-info">
       <div class="fuel-info-item">
         <p>Tank Name: </p>
-        <p>Tank {{ tankData.tank_id }}</p>
+        <p>Tank {{ tankData?.tank_id }}</p>
       </div>
 
       <div class="fuel-info-item">
         <p>Capacity: </p>
-        <p>{{ tankData.capacity }} L</p>
+        <p>{{ formattedNumber(tankData?.capacity) }} L</p>
       </div>
 
       <div class="fuel-info-item">
         <p>Volume: </p>
-        <p>{{ tankData.vol }} L</p>
+        <p>{{ formattedNumber(tankData?.vol) }} L</p>
       </div>
 
       <div class ="fuel-info-item">
         <p>TCV: </p>
-        <p>{{ tankData.tcv }} L</p>
+        <p>{{ formattedNumber(tankData?.tcv) }} L</p>
       </div>
 
       <div class="fuel-info-item">
         <p>Height: </p>
-        <p>{{ tankData.height }} mm</p>
+        <p>{{ formattedNumber(tankData?.height) }} mm</p>
       </div>
 
       <div class="fuel-info-item">
+        <p>Product: </p>
+        <p>{{ tankData?.product }}</p>
+      </div>
+
+      <div class="fuel-info-item-last">
         <p>Av. Temp: </p>
-        <p>{{ tankData.avg_temp }} &#8451;</p>
+        <p>{{ tankData?.avg_temp }} &#8451;</p>
       </div>
-
-      <div class="fuel-info-item">
-        <p>Temp 1: </p>
-        <p>{{ tankData.temp_1 }} &#8451;</p>
-      </div>
-
-      <div class="fuel-info-item">
-        <p>Temp 2: </p>
-        <p>{{ tankData.temp_2 }} &#8451;</p>
-      </div>
-
-      <div class="fuel-info-item">
-        <p>Temp 3: </p>
-        <p>{{ tankData.temp_3 }} &#8451;</p>
-      </div>
-
-      <div class="fuel-info-item">
-        <p>Temp 4: </p>
-        <p>{{ tankData.temp_4 }} &#8451;</p>
-      </div>
-
-      <div class="fuel-info-item fuel-info-item-last">
-        <p>Temp 5: </p>
-        <p>{{ tankData.temp_5 }} &#8451;</p>
-      </div>
+      
     </div>
   </div>
 </template>
@@ -83,12 +64,19 @@ export default {
   },
   computed: {
   fillPercentage() {
-    if (this.tankData && this.tankData.vol !== undefined && this.tankData.capacity !== undefined) {
-      return ((this.tankData.vol / this.tankData.capacity) * 100).toFixed();
+    if (this.tankData && this.tankData?.vol !== undefined && this.tankData?.capacity !== undefined) {
+      return ((this.tankData?.vol / this.tankData?.capacity) * 100).toFixed();
     }
     return 0;
   },
 },
+methods:{
+  formattedNumber(num){ return num.toLocaleString('en-US', {
+    minimumFractionDigits: 3,
+    maximumFractionDigits: 3,
+    });
+  }
+}
 };
 </script>
 
@@ -102,7 +90,7 @@ export default {
   padding-top: 20px;
   border-radius: 10px;
   width: 300px;
-  height: 475px;
+  height: 400px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   margin-bottom: 3%;
 }
@@ -154,6 +142,10 @@ p {
 }
 
 .fuel-info-item-last {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding: 5px;
   border-radius: 0px 0px 10px 10px;
 }
 

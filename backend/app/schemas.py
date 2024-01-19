@@ -86,6 +86,7 @@ class TankTemperatureBase(BaseModel):
     tank_id: int
     height: float
     capacity: float
+    product: str
 
 class TankTemperatureCreate(TankTemperatureBase):
     tank_data: List

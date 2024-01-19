@@ -68,5 +68,5 @@ class TankTemperature(Base):
     tcv = Column(Float)
     height = Column(Float)
     capacity = Column(Float)
-
+    product = Column(String)
     

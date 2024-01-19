@@ -3,9 +3,15 @@
     <div class="wrap-container">
       <div class="header">
         <img :src="logo" alt="Logo" class="image-size-logo" />
+        <div class="filter-items">
+          <button class="btn" @click="all">All</button>
+          <button class="btn" @click="pms">PMS</button>
+          <button class="btn" @click="ago">AGO</button>
+          <button class="btn" @click="dpk">DPK</button>
+        </div>
       </div>
       <div class="main-body">
-        <home v-if="tankData.length > 0" :tank-data="tankData" />
+        <home v-if="tankData.length > 0" :tank-data="filterTankData" />
         <div v-else>
           <img :src="spinner" alt="Loader" class="image-size-spinner" />
         </div>
@@ -32,6 +38,7 @@ export default {
   data() {
     return {
       tankData: [],
+      filterItem: '',
       logo: require('./assets/Smarteye-newLogo.png'),
       footerLogo: require('./assets/smart-flow.png'),
       spinner: require('./assets/Smartflow-rotating-logo.gif'),
@@ -51,7 +58,24 @@ export default {
           console.error('API error:', error);
         });
     },
+    filterData(filterItem){
+      if(filterItem==='') return this.tankData
+      const itemFilter = this.tankData.filter(item => item.product == filterItem)
+      return itemFilter
+    },
+    all(){ this.filterItem = ''},
+    pms(){ this.filterItem = 'PMS'},
+    ago(){ this.filterItem = 'AGO'},
+    dpk(){ this.filterItem = 'DPK'},
+    
   },
+
+  computed: {
+  filterTankData() {
+    const res = this.filterData(this.filterItem)
+    return res;
+  },
+},
 };
 </script>
 
@@ -87,7 +111,7 @@ body {
 .header {
   display: flex;
   align-items: center;
-  justify-content: flex-start;
+  justify-content: space-between;
   /* background-color: rgb(218, 218, 218); */
   box-shadow: rgba(0, 0, 0, 0.07) 0px 1px 1px, rgba(0, 0, 0, 0.07) 0px 2px 2px, rgba(0, 0, 0, 0.07) 0px 4px 4px, rgba(0, 0, 0, 0.07) 0px 8px 8px, rgba(0, 0, 0, 0.07) 0px 16px 16px;
   height: 10%;
@@ -120,5 +144,15 @@ body {
   height: 50px;
   margin-right: 3em;
 
+}
+.filter-items {
+  display: flex;
+  justify-content: flex-start;
+  width:60%;
+}
+.btn {
+  width:70px;
+  height: 40px;
+  margin: 5px;
 }
 </style>
