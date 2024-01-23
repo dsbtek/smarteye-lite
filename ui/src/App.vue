@@ -72,10 +72,15 @@ export default {
   },
 
   computed: {
-  filterTankData() {
-    const res = this.filterData(this.filterItem)
-    return res;
-  },
+    filterTankData() {
+  const res = this.filterData(this.filterItem);
+  return res.sort((a, b) => {
+    if (a.product === b.product) {
+      return a.tank_id - b.tank_id;
+    }
+    return a.product.localeCompare(b.product);
+  });
+},
 },
 };
 </script>
