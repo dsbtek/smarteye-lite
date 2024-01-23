@@ -7,7 +7,8 @@
           <button class="btn" @click="all">All</button>
           <button class="btn" @click="pms">PMS</button>
           <button class="btn" @click="ago">AGO</button>
-          <button class="btn" @click="dpk">DPK</button>
+          <button class="btn" @click="baseOil">BASE OIL</button>
+          <button class="btn" @click="jetA">JET A1</button>
         </div>
       </div>
       <div class="main-body">
@@ -66,8 +67,8 @@ export default {
     all(){ this.filterItem = ''},
     pms(){ this.filterItem = 'PMS'},
     ago(){ this.filterItem = 'AGO'},
-    dpk(){ this.filterItem = 'DPK'},
-    
+    baseOil(){ this.filterItem = 'BASE OIL'},
+    jetA(){ this.filterItem = 'JET A1'},
   },
 
   computed: {
@@ -151,7 +152,7 @@ body {
   width:60%;
 }
 .btn {
-  width:70px;
+  width:80px;
   height: 40px;
   margin: 5px;
 }
