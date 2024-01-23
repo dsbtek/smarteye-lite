@@ -157,7 +157,7 @@ body {
   width:60%;
 }
 .btn {
-  width:80px;
+  width:100px;
   height: 40px;
   margin: 5px;
 }
