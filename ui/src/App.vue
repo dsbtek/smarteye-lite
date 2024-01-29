@@ -10,6 +10,14 @@
           <button class="btn" @click="baseOil">BASE OIL</button>
           <button class="btn" @click="jetA">JET A1</button>
         </div>
+        <div class="profile">
+          <b-dropdown id="dropdown-1" text="Settings" class="m-md-2">
+            <b-dropdown-item v-b-modal.modal-center>Login</b-dropdown-item>
+            <b-dropdown-item>Tanks</b-dropdown-item>
+            <b-dropdown-item>Products</b-dropdown-item>
+            <!-- <b-dropdown-divider></b-dropdown-divider> -->
+          </b-dropdown>
+        </div>
       </div>
       <div class="main-body">
         <home v-if="tankData.length > 0" :tank-data="filterTankData" />
@@ -21,7 +29,20 @@
         <i class="fa fa-bolt fa-lg" style="color: red;"></i> 
         <img :src="footerLogo" alt="Footer logo" class="image-size-footer" />
       </div>
+
+      <div>
+
+        <b-modal id="modal-center" centered title="Login">
+          <LoginUser />
+          <b-button class="mt-3" block @click="$bvModal.hide('modal-center')">Close Me</b-button>
+        </b-modal>
+        
+      </div>
+
     </div>
+
+    
+
   </div>
 </template>
 
@@ -30,11 +51,14 @@ import axios from 'axios';
 import home from './components/index-home.vue';
 import 'font-awesome/css/font-awesome.min.css'; 
 import 'font-awesome/fonts/fontawesome-webfont.ttf';
+import LoginUser from './components/LoginUser.vue'
+
 
 export default {
   name: 'App',
   components: {
     home,
+    LoginUser
   },
   data() {
     return {
@@ -87,6 +111,8 @@ export default {
 
 <style>
 #app {
+  display: flex;
+  flex-direction: column;
   font-family: Avenir, Helvetica, Arial, sans-serif;
   text-align: center;
   color: #2c3e50;
@@ -154,11 +180,15 @@ body {
 .filter-items {
   display: flex;
   justify-content: flex-start;
-  width:60%;
+  /* width:60%; */
 }
 .btn {
   width:100px;
   height: 40px;
-  margin: 5px;
+  /* margin: 5px; */
+}
+.profile {
+  /* margin-left: 5em; */
+  width:20%;
 }
 </style>

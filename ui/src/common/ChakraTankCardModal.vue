@@ -256,7 +256,7 @@ p {
       height: 100%;
     }
   }
-
+  
   .liquid-rect {
     animation: fillAnimation 2s ease;
   }

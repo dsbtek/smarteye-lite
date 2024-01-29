@@ -1,10 +1,12 @@
-from pydantic import BaseModel
-from typing import List, Optional
+from pydantic import BaseModel, Field, PositiveInt, conint
+from typing import List, Optional, Union
 from datetime import datetime
 
 class UserBase(BaseModel):
     email: str
     is_active: bool
+    full_name: str
+    user_type: str
 
 class UserCreate(UserBase):
     hashed_password: str
@@ -12,9 +14,20 @@ class UserCreate(UserBase):
 class User(UserBase):
     id: int
 
-    class Config:
-        from_attributes = True
+class UserCredentials(BaseModel):
+    username: str
+    password: str
 
+class Token(BaseModel):
+    access_token: str
+    token_type: str
+
+class TokenData(BaseModel):
+    username: Union[str, None] = None
+    
+class UserLogin(BaseModel):
+    username: str
+    password: str
 
 class LatestTankLogBase(BaseModel):
     tank_name: str
@@ -34,11 +47,6 @@ class LatestTankLogCreate(LatestTankLogBase):
 
 class LatestTankLog(LatestTankLogBase):
     id: int
-
-    class Config:
-        from_attributes = True
-        arbitrary_types_allowed = True  # Ignore schema generation error
-
 
 class TankLogsBase(BaseModel):
     transaction_id: str
@@ -67,9 +75,6 @@ class TankLogs(TankLogsBase):
     id: int
     latest_tank_log: LatestTankLogBase
 
-    class Config:
-        from_attributes = True
-
 class TankTemperatureBase(BaseModel):
     local_id: str
     date_time: str
@@ -87,15 +92,109 @@ class TankTemperatureBase(BaseModel):
     height: float
     capacity: float
     product: str
+    atg_time: str
+    
 
 class TankTemperatureCreate(TankTemperatureBase):
     tank_data: List
+    class Config:
+        orm_mode = True
 
 class TankTemperatureInput(TankTemperatureBase):
     tank_data: List
+    class Config:
+        orm_mode = True
 
 class TankTemperature(TankTemperatureCreate):
     id: int
-
+class ProductBase(BaseModel):
+    Name: str
+    Code: str
+    density: str
+    Created_at: datetime
+    Updated_at: datetime
+    Deleted_at: Optional[datetime]
     class Config:
-        from_attributes = True
+        orm_mode = True
+
+class Product(ProductBase):
+    id: Optional[int]
+    class Config:
+        orm_mode = True
+
+class ProductUpdate(BaseModel):
+    Name: Optional[str]
+    Code: Optional[str]
+    density: Optional[str]
+    Updated_at: datetime
+    class Config:
+        orm_mode = True
+
+class TankBase(BaseModel):
+    id: PositiveInt
+    Name: str
+    product: PositiveInt
+    Control_mode: str
+    Tank_controller: str
+    Controller_polling_address: conint(ge=1, le=10)
+    Tank_index: conint(ge=1, le=999999)
+    Capacity: PositiveInt
+    UOM: str
+    Shape: str
+    LL_Level: int
+    L_Level: int
+    HH_Level: int
+    H_Level: int
+    Reorder: int
+    Leak: int
+    Created_at: datetime
+    Updated_at: datetime
+    Deleted_at: Optional[datetime]
+    Status: bool
+    Offset: float
+    Po4: float
+    Display_unit: str
+    Density: Optional[float]
+    Tank_height: Optional[float]
+    Anomaly_period: Optional[float]
+    Anomaly_volume: Optional[float]
+    Tank_Note: str
+    
+class TankCreate(TankBase):
+    product: int
+    class Config:
+        orm_mode = True
+
+class TankUpdate(BaseModel):
+    Name: Optional[str]
+    Product: Optional[PositiveInt]  # Optional field for updating the product
+    Control_mode: Optional[str]
+    Tank_controller: Optional[str]
+    Controller_polling_address: Optional[conint(ge=1, le=10)]
+    Tank_index: Optional[conint(ge=1, le=999999)]
+    Capacity: Optional[PositiveInt]
+    UOM: Optional[str]
+    Shape: Optional[str]
+    LL_Level: Optional[int]
+    L_Level: Optional[int]
+    HH_Level: Optional[int]
+    H_Level: Optional[int]
+    Reorder: Optional[int]
+    Leak: Optional[int]
+    Updated_at: Optional[datetime]
+    Status: Optional[bool]
+    Offset: Optional[float]
+    Po4: Optional[float]
+    Display_unit: Optional[str]
+    Density: Optional[float]
+    Tank_height: Optional[float]
+    Anomaly_period: Optional[float]
+    Anomaly_volume: Optional[float]
+    Tank_Note: Optional[str]
+    class Config:
+        orm_mode = True
+
+class Tank(TankBase):
+    id: int
+    class Config:
+        orm_mode = True
