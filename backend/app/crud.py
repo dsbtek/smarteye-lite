@@ -95,14 +95,14 @@ async def create_or_update_temp_tank_logs(request: Request, db: Session = Depend
 @router.get("/tank-logs-temp/")
 def get_all_temp_tank_logs(db: Session = Depends(get_db)):
     temp_tank_logs = db.query(models.TankTemperature).all()
-    res = []
-    for tank in temp_tank_logs:
-        get_tank = db.query(models.Tanks).filter(models.Tanks.id==tank.tank_id).first()
-        if get_tank:
-            tank.product = get_tank.product.Code
-            tank.tank_name = get_tank.Name
-        res.append(tank)
-    return res
+    # res = []
+    # for tank in temp_tank_logs:
+    #     get_tank = db.query(models.Tanks).filter(models.Tanks.id==tank.tank_id).first()
+    #     if get_tank:
+    #         tank.product = get_tank.product.Code
+    #         tank.tank_name = get_tank.Name
+    #     res.append(tank)
+    return temp_tank_logs
 
 # Get tank log by ID
 @router.get("/tank-logs/{tank_log_id}")
@@ -320,6 +320,7 @@ def create_tank(tank: schemas.TankCreate, db: Session = Depends(get_db)):
 
     # Create a new Tanks instance without passing product as a keyword argument
     db_tank = models.Tanks(
+        id=tank.id,
         Name=tank.Name,
         Control_mode=tank.Control_mode,
         Tank_controller=tank.Tank_controller,
@@ -335,7 +336,6 @@ def create_tank(tank: schemas.TankCreate, db: Session = Depends(get_db)):
         Reorder=tank.Reorder,
         Leak=tank.Leak,
         Created_at=tank.Created_at,
-        Updated_at=tank.Updated_at,
         Status=tank.Status,
         Offset=tank.Offset,
         Po4=tank.Po4,
@@ -448,7 +448,7 @@ def get_tanks(skip: int = 0, limit: int = 10, db: Session = Depends(get_db)):
                 "Tank_controller": tank.Tank_controller,
                 "Controller_polling_address": tank.Controller_polling_address,
                 "Tank_index": tank.Tank_index,
-                "Tank_height": tank.Tank_height,
+                "Tank_capacity": tank.Capacity,
                 "Tank_id": tank.id
             }
             tank_details.append(tank_detail)

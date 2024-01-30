@@ -3,6 +3,12 @@
       <b-form @submit.prevent="createTank">
         <b-row>
             <b-col md="6">
+                <b-form-group label="ID:" label-for="tank_id">
+                <b-form-input id="tank_id" v-model="tankData.id" required></b-form-input>
+                </b-form-group>
+            </b-col>
+
+            <b-col md="6">
                 <b-form-group label="Name:" label-for="tankName">
                 <b-form-input id="tankName" v-model="tankData.Name" required></b-form-input>
                 </b-form-group>
@@ -115,10 +121,12 @@
           <b-form-input id="Anomaly_volume" v-model="tankData.Anomaly_volume" required></b-form-input>
         </b-form-group>
     </b-col>
+    <b-col md="6">
     <b-col md="12">
         <b-form-group label="Tank Note:" label-for="Tank_Note">
           <b-form-input id="Tank_Note" v-model="tankData.Tank_Note" required></b-form-input>
-        </b-form-group>
+    </b-form-group>
+</b-col>
 
     </b-col>
 </b-row>

@@ -83,7 +83,7 @@
         </div>
 
         <div class="fuel-info-item fuel-info-item-last">
-          <p>ATG Status: {{ modalContent?.atg_time }}</p>
+          <p>ATG Status:</p>
           <p :class="getHourDifference(modalContent?.atg_time)">{{ getHourDifference(modalContent?.atg_time) }}</p>
         </div>
       </div>

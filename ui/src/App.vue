@@ -14,8 +14,8 @@
           <b-dropdown id="dropdown-1" text="Settings" class="m-md-2">
             <b-dropdown-item v-if="!checkToken" @click="$bvModal.show('login-modal')">Login</b-dropdown-item>
             <b-dropdown-item v-if="checkToken" @click="logout">Logout</b-dropdown-item>
-            <b-dropdown-item @click="$bvModal.show('tank-modal')">Tanks</b-dropdown-item>
-            <b-dropdown-item @click="$bvModal.show('product-modal')">Products</b-dropdown-item>
+            <b-dropdown-item v-if="checkToken" @click="$bvModal.show('tank-modal')">Tanks</b-dropdown-item>
+            <b-dropdown-item v-if="checkToken" @click="$bvModal.show('product-modal')">Products</b-dropdown-item>
           </b-dropdown>
         </div>
       </div>
@@ -81,6 +81,7 @@ export default {
   created() {
     // Call the fetchData method every 90 seconds
     setInterval(this.fetchData, 9000); // 90 seconds = 90,000 milliseconds
+    this.fetchProducts()
   },
   methods: {
     fetchData() {
@@ -105,7 +106,17 @@ export default {
     logout() {
       localStorage.clear()
       window.location.reload()
-    }
+    },
+    fetchProducts() {
+      // Fetch the list of registered products from the server
+      axios.get('http://localhost:8000/products/')
+        .then(response => {
+          this.products = response.data;
+        })
+        .catch(error => {
+          console.error('Error fetching products:', error.response);
+        });
+    },
   },
 
   computed: {
