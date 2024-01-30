@@ -4,11 +4,9 @@
       <div class="header">
         <img :src="logo" alt="Logo" class="image-size-logo" />
         <div class="filter-items">
-          <b-button class="btn-filter" @click="all">All</b-button>
-          <b-button class="btn-filter ms-2" @click="pms">PMS</b-button>
-          <b-button class="btn-filter ms-2" @click="ago">AGO</b-button>
-          <b-button class="btn-filter ms-2" @click="baseOil">BASE OIL</b-button>
-          <b-button class="btn-filter ms-2" @click="jetA">JET A1</b-button>
+          <div v-for="product in products" :key="product.Code" class="btn-filter" @click="filterByProduct(product.Code)">
+            {{ product.Name }}
+          </div>
         </div>
         <div class="profile">
           <b-dropdown id="dropdown-1" text="Settings" class="m-md-2">
@@ -76,6 +74,12 @@ export default {
       logo: require('./assets/Smarteye-newLogo.png'),
       footerLogo: require('./assets/smart-flow.png'),
       spinner: require('./assets/Smartflow-rotating-logo.gif'),
+      products:[
+      {
+        "Name": "All",
+        "Code": "All"      
+      },
+      ]
     };
   },
   created() {
@@ -93,11 +97,17 @@ export default {
           console.error('API error:', error);
         });
     },
-    filterData(filterItem){
-      if(filterItem==='') return this.tankData
-      const itemFilter = this.tankData.filter(item => item.product == filterItem)
-      return itemFilter
-    },
+    filterByProduct(productCode) {
+    this.filterItem = productCode;
+  },
+  filterData(filterItem) {
+  if (filterItem === '' || filterItem === 'All') {
+    return this.tankData;
+  }
+  
+  const itemFilter = this.tankData.filter(item => item.product === filterItem);
+  return itemFilter;
+},
     all(){ this.filterItem = ''},
     pms(){ this.filterItem = 'PMS'},
     ago(){ this.filterItem = 'AGO'},
@@ -108,15 +118,15 @@ export default {
       window.location.reload()
     },
     fetchProducts() {
-      // Fetch the list of registered products from the server
-      axios.get('http://localhost:8000/products/')
-        .then(response => {
-          this.products = response.data;
-        })
-        .catch(error => {
-          console.error('Error fetching products:', error.response);
-        });
-    },
+  // Fetch the list of registered products from the server
+  axios.get('http://localhost:8000/products/')
+    .then(response => {
+      this.products.push(...response.data);
+    })
+    .catch(error => {
+      console.error('Error fetching products:', error.response);
+    });
+},
   },
 
   computed: {
@@ -210,10 +220,22 @@ body {
   /* width:60%; */
 }
 .btn-filter {
+  display: flex;
+  flex-direction: column;
+  align-content: center;
+  justify-content: center;
+  margin-left: 5px;
   width:100px;
   height: 40px;
-  /* background-color: #6c737b !important; */
-  /* margin: 5px; */
+  background-color: #6c737b !important;
+  color:#c1c3c5;
+  border-radius: 8px;
+}
+
+.btn-filter:hover {
+  cursor:pointer;
+  color:#58595a;
+  background-color: #c1c3c5 !important;
 }
 .profile {
   /* margin-left: 5em; */

@@ -95,14 +95,17 @@ async def create_or_update_temp_tank_logs(request: Request, db: Session = Depend
 @router.get("/tank-logs-temp/")
 def get_all_temp_tank_logs(db: Session = Depends(get_db)):
     temp_tank_logs = db.query(models.TankTemperature).all()
-    # res = []
-    # for tank in temp_tank_logs:
-    #     get_tank = db.query(models.Tanks).filter(models.Tanks.id==tank.tank_id).first()
-    #     if get_tank:
-    #         tank.product = get_tank.product.Code
-    #         tank.tank_name = get_tank.Name
-    #     res.append(tank)
-    return temp_tank_logs
+    res = []
+    for tank in temp_tank_logs:
+        get_tank = db.query(models.Tanks).filter(models.Tanks.id==tank.tank_id).first()
+        print(get_tank)
+        if get_tank:
+            tank.product = get_tank.product.Code
+            tank.tank_name = get_tank.Name
+            res.append(tank)
+        else:
+            continue
+    return res
 
 # Get tank log by ID
 @router.get("/tank-logs/{tank_log_id}")

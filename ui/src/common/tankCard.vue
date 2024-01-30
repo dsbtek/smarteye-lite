@@ -10,7 +10,7 @@
     <div class="fuel-info">
       <div class="fuel-info-item">
         <p>Tank Name: </p>
-        <p>Tank {{ tankData?.tank_id }}</p>
+        <p>{{ tankData?.tank_name }}</p>
       </div>
 
       <div class="fuel-info-item">

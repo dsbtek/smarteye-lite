@@ -14,7 +14,7 @@
       <div class="fuel-info">
         <div class="fuel-info-item fuel-info-item-first">
           <p>Tank Name: </p>
-          <p>Tank {{ modalContent?.tank_id }}</p>
+          <p>{{ modalContent?.tank_name }}</p>
         </div>
 
         <div class="fuel-info-item">
