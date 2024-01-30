@@ -98,7 +98,6 @@ def get_all_temp_tank_logs(db: Session = Depends(get_db)):
     res = []
     for tank in temp_tank_logs:
         get_tank = db.query(models.Tanks).filter(models.Tanks.id==tank.tank_id).first()
-        print(get_tank)
         if get_tank:
             tank.product = get_tank.product.Code
             tank.tank_name = get_tank.Name
