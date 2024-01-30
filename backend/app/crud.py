@@ -214,7 +214,7 @@ def get_current_user(token: str = Depends(OAuth2PasswordBearer(tokenUrl="login")
     return token_data
 
 # Login endpoint
-@router.post("/login", response_model=schemas.Token)
+@router.post("/login")
 async def login_for_access_token(form_data: schemas.UserLogin, db: Session = Depends(get_db)):
     user = db.query(models.User).filter(models.User.email == form_data.username).first()
     if not user or not user.verify_password(form_data.password):
@@ -226,7 +226,7 @@ async def login_for_access_token(form_data: schemas.UserLogin, db: Session = Dep
 
     access_token_expires = timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
     access_token = create_access_token(data={"sub": user.email}, expires_delta=access_token_expires)
-    return {"access_token": access_token, "token_type": "bearer"}
+    return {"access_token": access_token, "token_type": "bearer", "user":user}
 
 @router.get("/protected")
 async def protected_route(current_user: schemas.TokenData = Depends(get_current_user)):
@@ -388,14 +388,14 @@ def update_tank(tank_id: int, tank_update: schemas.TankUpdate, db: Session = Dep
 
 
 # Endpoint to get a list of all tanks
-@router.get("/tanks/", response_model=List[schemas.TankBase])
+@router.get("/tanks/")
 def get_tanks(skip: int = 0, limit: int = 10, db: Session = Depends(get_db)):
     tanks = db.query(models.Tanks).offset(skip).limit(limit).all()
     return  [
                 {
-                    "Tank_id": tank.Tank_id,
+                    "Tank_id": tank.id,
                     "Name": tank.Name,
-                    "Product_id": tank.Product_id,
+                    "Product_id": tank.product,
                     "Control_mode": tank.Control_mode,
                     "Tank_controller": tank.Tank_controller,
                     "Controller_polling_address": tank.Controller_polling_address,

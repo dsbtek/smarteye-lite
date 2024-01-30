@@ -74,12 +74,17 @@
 
         <div class="fuel-info-item">
           <p>Last Updated Time: </p>
-          <p>{{ modalContent?.date_time }}</p>
+          <p>{{ modalContent?.atg_time }}</p>
+        </div>
+
+        <div class="fuel-info-item ">
+          <p>Temperature Status: </p>
+          <p :class="getHourDifference(modalContent?.date_time)">{{ getHourDifference(modalContent?.date_time) }}</p>
         </div>
 
         <div class="fuel-info-item fuel-info-item-last">
-          <p>Status: </p>
-          <p :class="getHourDifference(modalContent?.date_time)">{{ getHourDifference(modalContent?.date_time) }}</p>
+          <p>ATG Status: {{ modalContent?.atg_time }}</p>
+          <p :class="getHourDifference(modalContent?.atg_time)">{{ getHourDifference(modalContent?.atg_time) }}</p>
         </div>
       </div>
     </div>
@@ -153,7 +158,7 @@ export default {
   justify-content: center;
   /* background-color:rgb(9, 56, 56); */
   width: 50%;
-  height: 100%;
+  height:100%;
 }
 .fuel-card {
   display: flex;
@@ -164,7 +169,7 @@ export default {
   padding-top: 20px;
   /* border-radius: 10px; */
   width: 300px;
-  height: 95%;
+  height: 98%;
   /* box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); */
   /* margin-bottom: 3%; */
 }
@@ -210,7 +215,7 @@ p {
   align-items: center;
   justify-content: space-between;
   width: 96%;
-  height: 1em;
+  height: 2em;
   border: #ccc 1px solid;
   padding: 5px;
 }

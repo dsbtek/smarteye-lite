@@ -4,18 +4,18 @@
       <div class="header">
         <img :src="logo" alt="Logo" class="image-size-logo" />
         <div class="filter-items">
-          <button class="btn" @click="all">All</button>
-          <button class="btn" @click="pms">PMS</button>
-          <button class="btn" @click="ago">AGO</button>
-          <button class="btn" @click="baseOil">BASE OIL</button>
-          <button class="btn" @click="jetA">JET A1</button>
+          <b-button class="btn-filter" @click="all">All</b-button>
+          <b-button class="btn-filter ms-2" @click="pms">PMS</b-button>
+          <b-button class="btn-filter ms-2" @click="ago">AGO</b-button>
+          <b-button class="btn-filter ms-2" @click="baseOil">BASE OIL</b-button>
+          <b-button class="btn-filter ms-2" @click="jetA">JET A1</b-button>
         </div>
         <div class="profile">
           <b-dropdown id="dropdown-1" text="Settings" class="m-md-2">
-            <b-dropdown-item v-b-modal.modal-center>Login</b-dropdown-item>
-            <b-dropdown-item>Tanks</b-dropdown-item>
-            <b-dropdown-item>Products</b-dropdown-item>
-            <!-- <b-dropdown-divider></b-dropdown-divider> -->
+            <b-dropdown-item v-if="!checkToken" @click="$bvModal.show('login-modal')">Login</b-dropdown-item>
+            <b-dropdown-item v-if="checkToken" @click="logout">Logout</b-dropdown-item>
+            <b-dropdown-item @click="$bvModal.show('tank-modal')">Tanks</b-dropdown-item>
+            <b-dropdown-item @click="$bvModal.show('product-modal')">Products</b-dropdown-item>
           </b-dropdown>
         </div>
       </div>
@@ -30,13 +30,19 @@
         <img :src="footerLogo" alt="Footer logo" class="image-size-footer" />
       </div>
 
-      <div>
-
-        <b-modal id="modal-center" centered title="Login">
+      <div class="login-modal-wrap">
+        <b-modal id="login-modal" size="lg" centered hide-footer title="Login">
           <LoginUser />
-          <b-button class="mt-3" block @click="$bvModal.hide('modal-center')">Close Me</b-button>
         </b-modal>
-        
+
+        <b-modal id="product-modal" size="lg" centered hide-footer title="Product">
+          <ProductList />
+        </b-modal>
+
+        <b-modal id="tank-modal" size="lg" centered hide-footer title="Tank">
+          <TankList />
+        </b-modal>
+
       </div>
 
     </div>
@@ -52,13 +58,16 @@ import home from './components/index-home.vue';
 import 'font-awesome/css/font-awesome.min.css'; 
 import 'font-awesome/fonts/fontawesome-webfont.ttf';
 import LoginUser from './components/LoginUser.vue'
-
+import ProductList from './common/ProductList.vue'
+import TankList from './common/TankList.vue'
 
 export default {
   name: 'App',
   components: {
     home,
-    LoginUser
+    LoginUser,
+    ProductList,
+    TankList
   },
   data() {
     return {
@@ -93,18 +102,25 @@ export default {
     ago(){ this.filterItem = 'AGO'},
     baseOil(){ this.filterItem = 'BASE OIL'},
     jetA(){ this.filterItem = 'JET A1'},
+    logout() {
+      localStorage.clear()
+      window.location.reload()
+    }
   },
 
   computed: {
-    filterTankData() {
-  const res = this.filterData(this.filterItem);
-  return res.sort((a, b) => {
-    if (a.product === b.product) {
-      return a.tank_id - b.tank_id;
-    }
-    return a.product.localeCompare(b.product);
-  });
-},
+  filterTankData() {
+    const res = this.filterData(this.filterItem);
+    return res.sort((a, b) => {
+      if (a.product === b.product) {
+        return a.tank_id - b.tank_id;
+      }
+      return a.product.localeCompare(b.product);
+    });
+  },
+  checkToken() {
+    return localStorage.getItem('token');
+  }
 },
 };
 </script>
@@ -182,13 +198,20 @@ body {
   justify-content: flex-start;
   /* width:60%; */
 }
-.btn {
+.btn-filter {
   width:100px;
   height: 40px;
+  /* background-color: #6c737b !important; */
   /* margin: 5px; */
 }
 .profile {
   /* margin-left: 5em; */
   width:20%;
+}
+
+.login-modal-wrap {
+  width: 100%;
+  /* height: 100%; */
+  /* background-color: rgb(47, 76, 205); */
 }
 </style>

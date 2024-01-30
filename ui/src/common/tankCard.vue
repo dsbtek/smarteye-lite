@@ -42,6 +42,16 @@
         <p>Av. Temp: </p>
         <p>{{ tankData?.avg_temp }} &#8451;</p>
       </div>
+
+      <div class="fuel-info-item">
+          <p>Temperature Status: </p>
+          <p :class="getHourDifference(tankData?.date_time)">{{ getHourDifference(tankData?.date_time) }}</p>
+        </div>
+
+        <div class="fuel-info-item fuel-info-item-last">
+          <p>ATG Status: </p>
+          <p :class="getHourDifference(tankData?.atg_time)">{{ getHourDifference(tankData?.atg_time) }}</p>
+        </div>
       
     </div>
   </div>
@@ -71,6 +81,16 @@ export default {
   },
 },
 methods:{
+  getHourDifference(dateTime2) {
+    const dateTime1 = new Date();
+    const timestamp1 = new Date(dateTime1).getTime();
+    const timestamp2 = new Date(dateTime2).getTime();
+    // Calculate the time difference in milliseconds
+    const timeDifference = Math.abs(timestamp2 - timestamp1);
+    // Convert the time difference to hours
+    const hoursDifference = timeDifference / (1000 * 60 * 60);
+      if (hoursDifference > 2)  {return "Offline"} else {return "Online"}
+  },
   formattedNumber(num){ return num.toLocaleString('en-US', {
     minimumFractionDigits: 3,
     maximumFractionDigits: 3,
@@ -90,7 +110,7 @@ methods:{
   padding-top: 20px;
   border-radius: 10px;
   width: 300px;
-  height: 400px;
+  height: 500px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   margin-bottom: 3%;
 }
@@ -135,16 +155,28 @@ p {
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
-  width: 96%;
-  height: 1em;
+  width: 100%;
+  height: 2em;
   border: #ccc 1px solid;
   padding: 5px;
+}
+
+.Online {
+  border-radius: 5px;
+  background-color:#04ab0c;
+  width: 70px;
+}
+.Offline {
+  border-radius: 5px;
+  background-color:#f1168b;
+  width: 70px;
 }
 
 .fuel-info-item-last {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+  height: 2em;
   padding: 5px;
   border-radius: 0px 0px 10px 10px;
 }

@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div class="container-wrap ">
     <div class="card-container">
       <tank-card
         v-for="(item, index) in tankData"
@@ -65,19 +65,19 @@ export default {
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(98, 98, 98, 0.5); /* Semi-transparent overlay */
+  background-color: rgba(98, 98, 98, 0.5);
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 500; /* Ensure the overlay is above other content */
+  z-index: 500;
 }
-.container {
+.container-wrap {
   display: flex;
   flex-direction: column;
   flex-wrap: wrap;
   align-items: center;
   justify-content: center;
-  overflow-y: scroll;
+  /* overflow-y: scroll; */
   height: 100vh;
   width: 100%;
 }

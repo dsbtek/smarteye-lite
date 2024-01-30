@@ -112,8 +112,6 @@ class ProductBase(BaseModel):
     Code: str
     density: str
     Created_at: datetime
-    Updated_at: datetime
-    Deleted_at: Optional[datetime]
     class Config:
         orm_mode = True
 
@@ -148,8 +146,6 @@ class TankBase(BaseModel):
     Reorder: int
     Leak: int
     Created_at: datetime
-    Updated_at: datetime
-    Deleted_at: Optional[datetime]
     Status: bool
     Offset: float
     Po4: float
