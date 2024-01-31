@@ -64,7 +64,10 @@ async def create_or_update_temp_tank_logs(request: Request, db: Session = Depend
 
     for tank_data in tank_datas:
         local_id, date_time, multicont_polling_address, tank_index, temp_1, temp_2, temp_3, temp_4, temp_5, avg_temp, tank_id, vol, tcv, height, capacity, atg_time = tank_data
-        existing_record = db.query(models.TankTemperature).filter(models.TankTemperature.tank_id == tank_id).first()
+        try:
+            existing_record = db.query(models.TankTemperature).filter(models.TankTemperature.tank_id == tank_id).first()
+        except:
+            continue
         update_data = {
             'date_time': date_time,
             'multicont_polling_address': multicont_polling_address,
@@ -84,11 +87,19 @@ async def create_or_update_temp_tank_logs(request: Request, db: Session = Depend
             'atg_time': atg_time
         }
         if existing_record:
-            db.query(models.TankTemperature).filter(models.TankTemperature.tank_id == tank_id).update(update_data)
+            try:
+                db.query(models.TankTemperature).filter(models.TankTemperature.tank_id == tank_id).update(update_data)
+                db.commit()
+                count_d += 1
+            except:
+                continue
         else:
-            db_latest_tank_log_temp = models.TankTemperature(**update_data)
-            db.add(db_latest_tank_log_temp)
-        db.commit()
+            try:
+                db_latest_tank_log_temp = models.TankTemperature(**update_data)
+                db.add(db_latest_tank_log_temp)
+                db.commit()
+            except:
+                continue
     return "Record Inserted/Updated Successfully"
 
 # Get all tank logs with temperature
