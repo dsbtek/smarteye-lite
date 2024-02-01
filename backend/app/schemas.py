@@ -129,7 +129,6 @@ class ProductUpdate(BaseModel):
         orm_mode = True
 
 class TankBase(BaseModel):
-    id: PositiveInt
     Name: str
     product: PositiveInt
     Control_mode: str

@@ -4,9 +4,11 @@
       <div class="header">
         <img :src="logo" alt="Logo" class="image-size-logo" />
         <div class="filter-items">
-          <div v-for="product in products" :key="product.Code" class="btn-filter" @click="filterByProduct(product.Code)">
-            {{ product.Name }}
-          </div>
+          <b-form-select class="w-50 p-3" v-model="selectedProduct" :options="productOptions" @change="filterByProduct">
+            <template v-slot:first>
+              <option value="" disabled>Select Product to filter</option>
+            </template>
+          </b-form-select>
         </div>
         <div class="profile">
           <b-dropdown id="dropdown-1" text="Settings" class="m-md-2">
@@ -69,6 +71,7 @@ export default {
   },
   data() {
     return {
+      selectedProduct: '',
       tankData: [],
       filterItem: '',
       logo: require('./assets/Smarteye-newLogo.png'),
@@ -97,9 +100,9 @@ export default {
           console.error('API error:', error);
         });
     },
-    filterByProduct(productCode) {
-    this.filterItem = productCode;
-  },
+  //   filterByProduct(productCode) {
+  //   this.filterItem = productCode;
+  // },
   filterData(filterItem) {
   if (filterItem === '' || filterItem === 'All') {
     return this.tankData;
@@ -126,10 +129,17 @@ export default {
     .catch(error => {
       console.error('Error fetching products:', error.response);
     });
-},
+    },
+    filterByProduct() {
+      this.filterItem = this.selectedProduct;
+    },
   },
 
   computed: {
+    productOptions() {
+      // Generate options for the selection box
+      return this.products.map(product => ({ text: product.Name, value: product.Code }));
+    },
   filterTankData() {
     const res = this.filterData(this.filterItem);
     return res.sort((a, b) => {
@@ -214,37 +224,52 @@ body {
   margin-right: 3em;
 
 }
-.filter-items {
-  display: flex;
-  justify-content: flex-start;
-  /* width:60%; */
-}
-.btn-filter {
-  display: flex;
-  flex-direction: column;
-  align-content: center;
-  justify-content: center;
-  margin-left: 5px;
-  width:100px;
-  height: 40px;
-  background-color: #6c737b !important;
-  color:#c1c3c5;
-  border-radius: 8px;
-}
 
-.btn-filter:hover {
-  cursor:pointer;
-  color:#58595a;
-  background-color: #c1c3c5 !important;
-}
+
 .profile {
   /* margin-left: 5em; */
   width:20%;
 }
 
-.login-modal-wrap {
+/* .login-modal-wrap {
   width: 100%;
-  /* height: 100%; */
-  /* background-color: rgb(47, 76, 205); */
+  height: 100%;
+  background-color: rgb(47, 76, 205);
+} */
+
+.filter-items {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width:60%;
+  height: 50%;
 }
+
+  /* Style for the selection box */
+  /* .b-form-select {
+    width: 500px; 
+    margin-left: 10px; 
+  } */
+
+  /* .b-form-select::after {
+    border-color: #c1c3c5 transparent transparent; 
+  }
+
+  .b-form-select::placeholder {
+    color: #c1c3c5;
+  }
+
+  .b-form-select-option {
+    color: #2c3e50;
+  }
+
+  .b-form-select-menu {
+    background-color: #ffffff;
+    border: 1px solid #c1c3c5;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+
+  .b-form-select-menu .b-form-select-option:hover {
+    background-color: #f0f0f0;
+  } */
 </style>

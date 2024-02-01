@@ -9,7 +9,7 @@ pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 class User(Base):
     __tablename__ = "users"
 
-    id = Column(Integer, primary_key=True, index=True)
+    id = Column(Integer, primary_key=True, index=True, autoincrement="auto")
     email = Column(String, unique=True, index=True)
     hashed_password = Column(String)
     is_active = Column(Boolean, default=True)
@@ -61,7 +61,7 @@ class LatestTankLog(Base):
 class Products(Base):
     __tablename__ = 'products'
 
-    id = Column(Integer, primary_key=True)
+    id = Column(Integer, primary_key=True, autoincrement="auto")
     Name = Column(String(50), nullable=False)
     Code = Column(String(10), nullable=False)
     density = Column(String(10), nullable=False)
@@ -91,8 +91,8 @@ class Tanks(Base):
         ('HYD', 'Hydrostatic'),
     ]
 
-    id = Column(Integer, primary_key=True)
-    Name = Column(String(50), nullable=True)
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    Name = Column(String(50), nullable=False)
     Control_mode = Column(String(50), default='C')
     Tank_controller = Column(String(50), default='MTC')
     Controller_polling_address = Column(Integer, nullable=False, server_default='1')
@@ -120,7 +120,6 @@ class Tanks(Base):
     Tank_Note = Column(String(25), nullable=True)
     product_id = Column(Integer, ForeignKey('products.id'))
     product = relationship("Products", back_populates="tank")
-    
 
     def __repr__(self):
         return f'Tank:{self.Name}'

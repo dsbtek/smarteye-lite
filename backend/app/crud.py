@@ -263,7 +263,7 @@ def get_products(skip: int = 0, limit: int = 10, db: Session = Depends(get_db)):
         products = db.query(models.Products).offset(skip).limit(limit).all()
         return [
             {
-                "Product_id": product.id,
+                "id": product.id,
                 "Name": product.Name,
                 "Code": product.Code,
                 "density": product.density,
@@ -310,7 +310,7 @@ def update_product_endpoint(product_id: int, product_update: ProductUpdate, db: 
 
 @router.delete("/products/{product_id}", response_model=schemas.Product)
 def delete_product(product_id: int, db: Session = Depends(get_db)):
-    db_product = db.query(models.Products).filter(models.Products.Product_id == product_id).first()
+    db_product = db.query(models.Products).filter(models.Products.id == product_id).first()
     if db_product is None:
         raise HTTPException(status_code=404, detail="Product not found")
     db.delete(db_product)
@@ -333,7 +333,6 @@ def create_tank(tank: schemas.TankCreate, db: Session = Depends(get_db)):
 
     # Create a new Tanks instance without passing product as a keyword argument
     db_tank = models.Tanks(
-        id=tank.id,
         Name=tank.Name,
         Control_mode=tank.Control_mode,
         Tank_controller=tank.Tank_controller,
@@ -380,11 +379,11 @@ def update_tank(tank_id: int, tank_update: schemas.TankUpdate, db: Session = Dep
         raise HTTPException(status_code=404, detail="Tank not found")
 
     # Retrieve the Products instance based on the provided product_id
-    db_product = db.query(models.Products).get(db_tank.product.id)
+    db_product = db.query(models.Products).get(tank_update.Product)
 
     # Check if the product exists
     if not db_product:
-        raise HTTPException(status_code=400, detail=f"Product with id {tank_update.product.id} not found")
+        raise HTTPException(status_code=400, detail=f"Product with id {tank_update.Product} not found")
 
     # Update the tank's product association
     db_tank.product = db_product
@@ -439,9 +438,9 @@ def get_tanks(skip: int = 0, limit: int = 10, db: Session = Depends(get_db)):
             ]
     
 # Endpoint to delete a tank by ID
-@router.delete("/tanks/{tank_id}", response_model=schemas.TankBase)
+@router.delete("/tanks/{tank_id}")
 def delete_tank(tank_id: int, db: Session = Depends(get_db)):
-    db_tank = db.query(models.Tanks).filter(models.Tanks.Tank_id == tank_id).first()
+    db_tank = db.query(models.Tanks).filter(models.Tanks.id == tank_id).first()
     if db_tank is None:
         raise HTTPException(status_code=404, detail="Tank not found")
     db.delete(db_tank)

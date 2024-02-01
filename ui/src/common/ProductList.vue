@@ -1,39 +1,45 @@
 <template>
   <div>
-    <h2>Create Product</h2>
-    <!-- Your product creation form -->
-    <b-form @submit.prevent="createProduct">
-      <b-form-group label="Name:" label-for="name">
-        <b-form-input id="name" v-model="productData.Name" required></b-form-input>
-      </b-form-group>
-
-      <b-form-group label="Code:" label-for="code">
-        <b-form-input id="code" v-model="productData.Code" required></b-form-input>
-      </b-form-group>
-
-      <b-form-group label="Density:" label-for="density">
-        <b-form-input id="density" v-model="productData.density" required></b-form-input>
-      </b-form-group>
-      <br />
-      <b-button type="submit" variant="secondary">Create</b-button>
-    </b-form>
+      <EditProduct :editData="editData" :Close="CloseEdit_product" :refresh="fetchProducts" v-if="toggleEditProduct" />
+      <AddProduct :Close="CloseAdd_product" :refresh="fetchProducts" v-if="toggleAddProduct" />
 
     <hr>
 
-    <h2>List of Products</h2>
     <div v-if="products.length > 0">
-      <b-table striped hover :items="products" :fields="fields"></b-table>
+
+      <div class="table-header">
+       <div class="table-title">
+            <h3>List of Products</h3> 
+       </div>
+       <div class="table-add-tank" @click="add_product">
+            <h1>+</h1>
+       </div>
+
+     </div>
+      <b-table striped hover :items="products" :fields="fields">
+      <template v-slot:cell(action)="data">
+        <b-button @click="editProduct(data.item)"  variant="outline-secondary">Edit</b-button>
+        <b-button class="ms-2" @click="deleteProduct(data.item)"  variant="outline-danger">Delete</b-button>
+      </template>
+    </b-table>
+
     </div>
     <div v-else>
-      <p>No products registered yet.</p>
+      <p>No Record Found.</p>
     </div>
   </div>
 </template>
 
 <script>
 import axios from 'axios';
+import AddProduct from './AddProduct.vue';
+import EditProduct from './EditProduct.vue';
 
 export default {
+  components: {
+    AddProduct,
+    EditProduct
+  },
   data() {
     return {
       productData: {
@@ -42,8 +48,18 @@ export default {
         density: '',
         Created_at: '',
       },
+      editData:'',
       products: [],
-      fields: ['Name', 'Code', 'density', 'Created_at'],
+      toggleAddProduct: false,
+      toggleEditProduct: false,
+      fields: [
+        { key: 'Name', label: 'Product Name' },
+        { key: 'Code', label: 'Code' },
+        { key: 'density', label: 'Density' },
+        { key: 'Created_at', label: 'Date Created' },
+        // Add an action column
+        { key: 'action', label: 'Action' },
+      ],
     };
   },
   created() {
@@ -52,28 +68,88 @@ export default {
     this.fetchProducts();
   },
   methods: {
-    createProduct() {
-      // Your product creation logic
-      axios.post('http://localhost:8000/products/', this.productData)
-        .then(response => {
-          console.log('Product created successfully:', response);
-          // Refresh the list of products after creation
-          this.fetchProducts();
-        })
-        .catch(error => {
-          console.error('Error creating product:', error.response);
-        });
+      add_product(){
+          return this.toggleAddProduct = !this.toggleAddProduct
+      },
+      edit_product(){
+          if(this.toggleEditProduct) { '' } else {this.toggleEditProduct = true}
+          
+      },
+      CloseAdd_product(){
+          this.toggleAddProduct = false;
+      },
+      CloseEdit_product(){
+          this.toggleEditProduct = false;
+          
+      },
+      fetchProducts() {
+        // Fetch the list of registered products from the server
+        axios.get('http://localhost:8000/products/')
+          .then(response => {
+            this.products = response.data;
+          })
+          .catch(error => {
+            console.error('Error fetching products:', error.response);
+          });
+      },
+      editProduct(product) {
+      // Implement your edit logic here
+      this.edit_product()
+      this.editData = product
     },
-    fetchProducts() {
-      // Fetch the list of registered products from the server
-      axios.get('http://localhost:8000/products/')
-        .then(response => {
-          this.products = response.data;
-        })
-        .catch(error => {
-          console.error('Error fetching products:', error.response);
-        });
+    deleteProduct(product) {
+      // Implement your delete logic here
+      console.log('Delete tank:', product);
+      axios.delete(`http://localhost:8000/products/${product.id}`)
+          .then(response => {
+            console.log('Deleted product:', response.data);
+            this.fetchProducts();
+          })
+          .catch(error => {
+            console.error('Error deleting tanks:', error.response);
+          });
     },
   },
 };
 </script>
+
+<style scoped>
+  .table-header {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    height: 40px;
+    width: 100%;
+    background-color: rgb(166, 166, 169);
+    color: aliceblue;
+    margin: 5px;
+  }
+
+  .table-title {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    height: 40px;
+    width: 90%;
+    background-color: rgb(166, 166, 169);
+    color: aliceblue;
+    margin: 5px;
+  }
+  .table-add-tank {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    height: 40px;
+    width: 10%;
+    background-color: rgb(166, 166, 169);
+    color: aliceblue;
+    margin: 5px;
+  }
+  .table-add-tank:hover {
+    cursor: pointer;
+    color: rgb(199, 200, 201);
+  }
+  </style>

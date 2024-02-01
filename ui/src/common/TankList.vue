@@ -1,153 +1,41 @@
 <template>
     <div>
-      <b-form @submit.prevent="createTank">
-        <b-row>
-            <b-col md="6">
-                <b-form-group label="ID:" label-for="tank_id">
-                <b-form-input id="tank_id" v-model="tankData.id" required></b-form-input>
-                </b-form-group>
-            </b-col>
-
-            <b-col md="6">
-                <b-form-group label="Name:" label-for="tankName">
-                <b-form-input id="tankName" v-model="tankData.Name" required></b-form-input>
-                </b-form-group>
-            </b-col>
-
-            <b-col md="6">
-                <b-form-group label="Product:" label-for="tankProduct">
-                <!-- You may want to replace this with a dropdown or autocomplete based on your product data -->
-                <b-form-input id="tankProduct" v-model="tankData.product" required></b-form-input>
-                </b-form-group>
-            </b-col>
-<b-col md="6">
-        <b-form-group label="Control mode:" label-for="Control_mode">
-          <b-form-input id="Control_mode" v-model="tankData.Control_mode" required></b-form-input>
-        </b-form-group>
-    </b-col>
-    <b-col md="6">
-        <b-form-group label="Tank Controller:" label-for="Tank_controller">
-          <b-form-input id="Tank_controller" v-model="tankData.Tank_controller" required></b-form-input>
-        </b-form-group>
-    </b-col>
-    <b-col md="6">
-        <b-form-group label="Controller Polling Address:" label-for="Controller_polling_address">
-          <b-form-input id="Controller_polling_address" v-model="tankData.Controller_polling_address" required></b-form-input>
-        </b-form-group>
-    </b-col>
-    <b-col md="6">
-        <b-form-group label="Tank Index:" label-for="Tank_index">
-          <b-form-input id="Tank_index" v-model="tankData.Tank_index" required></b-form-input>
-        </b-form-group>
-    </b-col>
-    <b-col md="6">
-
-        <b-form-group label="Capacity:" label-for="Capacity">
-          <b-form-input id="Capacity" v-model="tankData.Capacity" required></b-form-input>
-        </b-form-group>
-    </b-col>
-    <b-col md="6">
-        <b-form-group label="UOM:" label-for="UOM">
-          <b-form-input id="UOM" v-model="tankData.UOM" required></b-form-input>
-        </b-form-group>
-    </b-col>
-    <b-col md="6">
-        <b-form-group label="Shape:" label-for="Shape">
-          <b-form-input id="Shape" v-model="tankData.Shape" required></b-form-input>
-        </b-form-group>
-    </b-col>
-    <b-col md="6">
-        <b-form-group label="LL Level:" label-for="LL_Level">
-          <b-form-input id="LL_Level" v-model="tankData.LL_Level" required></b-form-input>
-        </b-form-group>
-    </b-col>
-    <b-col md="6">
-        <b-form-group label="L Level:" label-for="L_Level">
-          <b-form-input id="L_Level" v-model="tankData.L_Level" required></b-form-input>
-        </b-form-group>
-    </b-col>
-    <b-col md="6">
-        <b-form-group label="HH Level:" label-for="HH_Level">
-          <b-form-input id="HH_Level" v-model="tankData.HH_Level" required></b-form-input>
-        </b-form-group>
-    </b-col>
-    <b-col md="6">
-        <b-form-group label="H Level:" label-for="H_Level">
-          <b-form-input id="H_Level" v-model="tankData.H_Level" required></b-form-input>
-        </b-form-group>
-    </b-col>
-    <b-col md="6">
-        <b-form-group label="Reorder:" label-for="Reorder">
-          <b-form-input id="Reorder" v-model="tankData.Reorder" required></b-form-input>
-        </b-form-group>
-    </b-col>
-    <b-col md="6">
-        <b-form-group label="Leak:" label-for="Leak">
-          <b-form-input id="Leak" v-model="tankData.Leak" required></b-form-input>
-        </b-form-group>
-    </b-col>
-    <b-col md="6">
-        <b-form-group label="Offset:" label-for="Offset">
-          <b-form-input id="Offset" v-model="tankData.Offset" required></b-form-input>
-        </b-form-group>
-    </b-col>
-    <b-col md="6">
-        <b-form-group label="Po4:" label-for="Po4">
-          <b-form-input id="Po4" v-model="tankData.Po4" required></b-form-input>
-        </b-form-group>
-    </b-col>
-    <b-col md="6">
-        <b-form-group label="Display unit:" label-for="Display_unit">
-          <b-form-input id="Display_unit" v-model="tankData.Display_unit" required></b-form-input>
-        </b-form-group>
-    </b-col>
-    <b-col md="6">
-        <b-form-group label="Density:" label-for="Density">
-          <b-form-input id="Density" v-model="tankData.Density" required></b-form-input>
-        </b-form-group>
-    </b-col>
-    <b-col md="6">
-        <b-form-group label="Tank height:" label-for="Tank_height">
-          <b-form-input id="Tank_height" v-model="tankData.Tank_height" required></b-form-input>
-        </b-form-group>
-    </b-col>
-    <b-col md="6">
-        <b-form-group label="Anomaly period:" label-for="Anomaly_period">
-          <b-form-input id="Anomaly_period" v-model="tankData.Anomaly_period" required></b-form-input>
-        </b-form-group>
-    </b-col>
-    <b-col md="6">
-        <b-form-group label="Anomaly volume:" label-for="Anomaly_volume">
-          <b-form-input id="Anomaly_volume" v-model="tankData.Anomaly_volume" required></b-form-input>
-        </b-form-group>
-    </b-col>
-    <b-col md="6">
-    <b-col md="12">
-        <b-form-group label="Tank Note:" label-for="Tank_Note">
-          <b-form-input id="Tank_Note" v-model="tankData.Tank_Note" required></b-form-input>
-    </b-form-group>
-</b-col>
-
-    </b-col>
-</b-row>
-        <br />
-        <b-button type="submit" variant="secondary">Create</b-button>
-        
-    
-      </b-form>
+      <AddTank :Close="CloseAdd_Tank" :refresh="fetchProducts" v-if="toggleAddTank" />
+      <EditTank :editData="editData" :Close="CloseEdit_Tank" :refresh="fetchProducts" v-if="toggleEditTank" />
     
       <hr>
-      <!-- List of Tanks -->
-      <h3>List of Tanks</h3>
-      <b-table striped hover :items="tanks" :fields="fields"></b-table>
+      <div class="table-header">
+       
+        <div class="table-title">
+             <h3>List of Tanks</h3> 
+        </div>
+        <div class="table-add-tank" @click="add_Tank">
+             <h1>+</h1>
+        </div>
+
+      </div>
+      
+      <b-table striped hover :items="tanks" :fields="fields">
+      <template v-slot:cell(action)="data">
+        <b-button @click="editTank(data.item)"  variant="outline-secondary">Edit</b-button>
+        <b-button class="ms-2" @click="deleteTank(data.item)"  variant="outline-danger">Delete</b-button>
+      </template>
+    </b-table>
 
     </div>
   </template>
   
   <script>
   import axios from 'axios';
+  import AddTank from './AddTank.vue';
+  import EditTank from './EditTank.vue';
+
   
   export default {
+    components: {
+    AddTank,
+    EditTank
+  },
     data() {
       return {
         tankData: {
@@ -177,9 +65,19 @@
             Anomaly_volume: '',
             Tank_Note: '',
         },
+        toggleAddTank: false,
+        toggleEditTank: false,
         tanks: [],
         products: [],
-        fields: ['Name', 'Capacity', 'Display_unit', 'Created_at'],
+        editData: '',
+        fields: [
+        // { key: 'Tank_id', label: 'Tank ID' },
+        { key: 'Name', label: 'Tank Name' },
+        { key: 'Product_id.Code', label: 'Product' },
+        { key: 'Created_at', label: 'Date Created' },
+        // Add an action column
+        { key: 'action', label: 'Action' },
+      ],
       };
     },
     created() {
@@ -190,6 +88,20 @@
       this.fetchProducts();
     },
     methods: {
+        add_Tank(){
+            return this.toggleAddTank = !this.toggleAddTank
+        },
+        edit_Tank(){
+            if(this.toggleEditTank) { '' } else {this.toggleEditTank = true}
+            
+        },
+        CloseAdd_Tank(){
+            this.toggleAddTank = false;
+        },
+        CloseEdit_Tank(){
+            this.toggleEditTank = false;
+            
+        },
       createTank() {
         // Your tank creation logic
         axios.post('http://localhost:8000/tanks/', this.tankData)
@@ -212,17 +124,73 @@
             console.error('Error fetching tanks:', error.response);
           });
       },
-      fetchProducts() {
-      // Fetch the list of registered products from the server
-      axios.get('http://localhost:8000/products/')
-        .then(response => {
-          this.products = response.data;
-        })
-        .catch(error => {
-          console.error('Error fetching products:', error.response);
-        });
+    fetchProducts() {
+    // Fetch the list of registered products from the server
+    axios.get('http://localhost:8000/products/')
+    .then(response => {
+        this.products = response.data;
+    })
+    .catch(error => {
+        console.error('Error fetching products:', error.response);
+    });
+    },
+    editTank(tank) {
+      // Implement your edit logic here
+      this.edit_Tank()
+      this.editData = tank
+    },
+    deleteTank(tank) {
+    // Implement your delete logic here
+    console.log('Delete tank:', tank);
+    axios.delete(`http://localhost:8000/tanks/${tank.Tank_id}`)
+    .then(response => {
+    console.log('Deleted tank:', response.data);
+    this.fetchTanks();
+    })
+    .catch(error => {
+    console.error('Error deleting tanks:', error.response);
+    });
     },
     },
   };
   </script>
-  
+  <style scoped>
+  .table-header {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    height: 40px;
+    width: 100%;
+    background-color: rgb(166, 166, 169);
+    color: aliceblue;
+    margin: 5px;
+  }
+
+  .table-title {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    height: 40px;
+    width: 90%;
+    background-color: rgb(166, 166, 169);
+    color: aliceblue;
+    margin: 5px;
+  }
+  .table-add-tank {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    height: 40px;
+    width: 10%;
+    background-color: rgb(166, 166, 169);
+    color: aliceblue;
+    margin: 5px;
+  }
+  .table-add-tank:hover {
+    cursor: pointer;
+    color: rgb(199, 200, 201);
+  }
+  </style>
