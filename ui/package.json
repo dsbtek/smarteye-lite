@@ -16,9 +16,7 @@
     "font-awesome": "^4.7.0",
     "jquery": "^3.7.1",
     "vue": "^2.7.16",
-    "vue-js-modal": "^2.0.1",
-    "vue-multiselect": "^2.1.8",
-    "vue-select": "^3.20.2"
+    "vue-js-modal": "^2.0.1"
   },
   "devDependencies": {
     "@babel/core": "^7.23.9",

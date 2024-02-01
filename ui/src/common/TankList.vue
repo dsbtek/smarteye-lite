@@ -9,7 +9,7 @@
         <div class="table-title">
              <h3>List of Tanks</h3> 
         </div>
-        <div class="table-add-tank" @click="add_Tank">
+        <div class="table-add-tank" :disabled="user_type !== 'Engineer'" @click="add_Tank">
              <h1>+</h1>
         </div>
 
@@ -70,6 +70,7 @@
         tanks: [],
         products: [],
         editData: '',
+        user_type:'',
         fields: [
         // { key: 'Tank_id', label: 'Tank ID' },
         { key: 'Name', label: 'Tank Name' },
@@ -82,7 +83,11 @@
     },
     created() {
         this.tankData.Created_at = new Date().toISOString();
-
+       // Retrieve the data from localStorage
+      const user = localStorage.getItem('user');
+      // Parse the JSON string back to an object
+      const parsedData = JSON.parse(user);
+      this.user_type = parsedData.user_type;
       // Fetch the list of tanks when the component is created
       this.fetchTanks();
       this.fetchProducts();

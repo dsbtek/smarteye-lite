@@ -87,6 +87,7 @@ export default {
         axios.post('http://localhost:8000/login', credentials)
           .then(response => {
             localStorage.setItem('token', response.data.access_token);
+            localStorage.setItem('user', JSON.stringify(response.data.user));
             console.log(response.data);
             this.$emit('$bvModal.hide("login-modal")');
             window.location.reload()

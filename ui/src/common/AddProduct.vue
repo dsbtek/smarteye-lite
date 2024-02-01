@@ -1,18 +1,18 @@
 <template>
      <b-form @submit.prevent="createProduct">
       <b-form-group label="Name:" label-for="name">
-        <b-form-input id="name" v-model="productData.Name" required></b-form-input>
+        <b-form-input id="name" v-model="productData.Name" :disabled="user_type !== 'Engineer'" required></b-form-input>
       </b-form-group>
 
       <b-form-group label="Code:" label-for="code">
-        <b-form-input id="code" v-model="productData.Code" required></b-form-input>
+        <b-form-input id="code" v-model="productData.Code" :disabled="user_type !== 'Engineer'" required></b-form-input>
       </b-form-group>
 
       <b-form-group label="Density:" label-for="density">
-        <b-form-input id="density" v-model="productData.density" required></b-form-input>
+        <b-form-input id="density" v-model="productData.density" :disabled="user_type !== 'Engineer'"  required></b-form-input>
       </b-form-group>
       <br />
-      <b-button type="submit" variant="outline-secondary">Create</b-button>
+      <b-button type="submit" variant="outline-secondary" :disabled="user_type !== 'Engineer'">Create</b-button>
     <b-button class="ms-3" @click="Close" variant="outline-success">Cancel</b-button>
 
       <!-- <b-button type="submit" variant="secondary">Create</b-button> -->
@@ -44,6 +44,11 @@ export default {
     this.productData.Created_at = new Date().toISOString();
     // Fetch the list of tanks when the component is created
     this.fetchProducts();
+    // Retrieve the data from localStorage
+    const user = localStorage.getItem('user');
+    // Parse the JSON string back to an object
+    const parsedData = JSON.parse(user);
+    this.user_type = parsedData.user_type;
   },
   methods: {
     closeAddTank() {

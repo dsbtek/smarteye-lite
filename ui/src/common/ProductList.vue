@@ -11,7 +11,7 @@
        <div class="table-title">
             <h3>List of Products</h3> 
        </div>
-       <div class="table-add-tank" @click="add_product">
+       <div class="table-add-tank" :disabled="user_type !== 'Engineer'" @click="add_product">
             <h1>+</h1>
        </div>
 
@@ -48,6 +48,7 @@ export default {
         density: '',
         Created_at: '',
       },
+      user_type:'',
       editData:'',
       products: [],
       toggleAddProduct: false,
@@ -64,6 +65,11 @@ export default {
   },
   created() {
     this.productData.Created_at = new Date().toISOString();
+     // Retrieve the data from localStorage
+     const user = localStorage.getItem('user');
+    // Parse the JSON string back to an object
+    const parsedData = JSON.parse(user);
+    this.user_type = parsedData.user_type;
     // Fetch the list of registered products when the component is created
     this.fetchProducts();
   },

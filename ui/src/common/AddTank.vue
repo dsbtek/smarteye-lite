@@ -6,13 +6,13 @@
 
         <b-col md="6">
             <b-form-group label="Name:" label-for="tankName">
-            <b-form-input id="tankName" v-model="tankData.Name" placeholder="Enter Tank Name" required></b-form-input>
+            <b-form-input id="tankName" v-model="tankData.Name" placeholder="Enter Tank Name" :disabled="user_type !== 'Engineer'" required></b-form-input>
             </b-form-group>
         </b-col>
 
         <b-col md="6">
             <b-form-group label="Product:" label-for="tankProduct">
-            <select v-model="selectedProductId" class="custom-select" placeholder="Select Product">
+            <select v-model="selectedProductId"  class="custom-select" placeholder="Select Product"  :disabled="user_type !== 'Engineer'">
                 <option disabled value="">Select Product</option>
                 <option v-for="product in products" :key="product.id" :value="product">{{ product.Name }}</option>
             </select>
@@ -20,38 +20,38 @@
         </b-col>
 
     <b-col md="6">
-        <b-form-group label="Control mode:" label-for="Control_mode">
-          <b-form-input id="Control_mode" v-model="tankData.Control_mode" placeholder="Enter Control Mode" required></b-form-input>
+        <b-form-group label="Control mode:" label-for="Control_mode" >
+          <b-form-input id="Control_mode" v-model="tankData.Control_mode" placeholder="Enter Control Mode" :disabled="user_type !== 'Engineer'" required></b-form-input>
         </b-form-group>
     </b-col>
 
     <b-col md="6">
         <b-form-group label="Tank Controller:" label-for="Tank_controller">
-          <b-form-input id="Tank_controller" v-model="tankData.Tank_controller" placeholder="Enter Tank Controller" required></b-form-input>
+          <b-form-input id="Tank_controller" v-model="tankData.Tank_controller" placeholder="Enter Tank Controller" :disabled="user_type !== 'Engineer'" required></b-form-input>
         </b-form-group>
     </b-col>
 
     <b-col md="6">
         <b-form-group label="Controller Polling Address:" label-for="Controller_polling_address">
-          <b-form-input id="Controller_polling_address" v-model="tankData.Controller_polling_address"  placeholder="Enter Tank Polling Address" required></b-form-input>
+          <b-form-input id="Controller_polling_address" v-model="tankData.Controller_polling_address"  placeholder="Enter Tank Polling Address" :disabled="user_type !== 'Engineer'" required></b-form-input>
         </b-form-group>
     </b-col>
 
     <b-col md="6">
         <b-form-group label="Tank Index:" label-for="Tank_index">
-          <b-form-input id="Tank_index" v-model="tankData.Tank_index" placeholder="Enter Tank Index" required></b-form-input>
+          <b-form-input id="Tank_index" v-model="tankData.Tank_index" placeholder="Enter Tank Index" :disabled="user_type !== 'Engineer'" required></b-form-input>
         </b-form-group>
     </b-col>
 
     <b-col md="6">
         <b-form-group label="Capacity:" label-for="Capacity">
-          <b-form-input id="Capacity" v-model="tankData.Capacity" placeholder="Enter Tank Capacity" required></b-form-input>
+          <b-form-input id="Capacity" v-model="tankData.Capacity" placeholder="Enter Tank Capacity" :disabled="user_type !== 'Engineer'" required></b-form-input>
         </b-form-group>
     </b-col>
 
     <b-col md="6">
             <b-form-group label="UOM:" label-for="UOM">
-            <select v-model="tankData.UOM" class="custom-select" placeholder="Select UOM">
+            <select v-model="tankData.UOM" class="custom-select" placeholder="Select UOM" :disabled="user_type !== 'Engineer'">
                 <option disabled value="">Select UOM</option>
                 <option v-for="item in measures" :key="item.id" :value="item.name">{{ item.name }}</option>
             </select>
@@ -66,7 +66,7 @@
 
     <b-col md="6">
             <b-form-group label="Shape:" label-for="Shape">
-            <select v-model="tankData.Shape" class="custom-select" placeholder="Select Shape">
+            <select v-model="tankData.Shape" class="custom-select" placeholder="Select Shape" :disabled="user_type !== 'Engineer'">
                 <option disabled value="">Select Shape</option>
                 <option v-for="item in shapes" :key="item.id" :value="item.name">{{ item.name }}</option>
             </select>
@@ -81,48 +81,48 @@
 
     <b-col md="6">
         <b-form-group label="LL Level:" label-for="LL_Level">
-          <b-form-input id="LL_Level" v-model="tankData.LL_Level" required></b-form-input>
+          <b-form-input id="LL_Level" v-model="tankData.LL_Level" :disabled="user_type !== 'Engineer'"  required></b-form-input>
         </b-form-group>
     </b-col>
     <b-col md="6">
         <b-form-group label="L Level:" label-for="L_Level">
-          <b-form-input id="L_Level" v-model="tankData.L_Level" required></b-form-input>
+          <b-form-input id="L_Level" v-model="tankData.L_Level" :disabled="user_type !== 'Engineer'"  required></b-form-input>
         </b-form-group>
     </b-col>
     <b-col md="6">
         <b-form-group label="HH Level:" label-for="HH_Level">
-          <b-form-input id="HH_Level" v-model="tankData.HH_Level" required></b-form-input>
+          <b-form-input id="HH_Level" v-model="tankData.HH_Level" :disabled="user_type !== 'Engineer'"  required></b-form-input>
         </b-form-group>
     </b-col>
     <b-col md="6">
         <b-form-group label="H Level:" label-for="H_Level">
-          <b-form-input id="H_Level" v-model="tankData.H_Level" required></b-form-input>
+          <b-form-input id="H_Level" v-model="tankData.H_Level" :disabled="user_type !== 'Engineer'"  required></b-form-input>
         </b-form-group>
     </b-col>
     <b-col md="6">
-        <b-form-group label="Reorder:" label-for="Reorder">
-          <b-form-input id="Reorder" v-model="tankData.Reorder" required></b-form-input>
+        <b-form-group label="Reorder:" label-for="Reorder" >
+          <b-form-input id="Reorder" v-model="tankData.Reorder" :disabled="user_type !== 'Engineer'" required></b-form-input>
         </b-form-group>
     </b-col>
     <b-col md="6">
         <b-form-group label="Leak:" label-for="Leak">
-          <b-form-input id="Leak" v-model="tankData.Leak" required></b-form-input>
+          <b-form-input id="Leak" v-model="tankData.Leak" :disabled="user_type !== 'Engineer'" required></b-form-input>
         </b-form-group>
     </b-col>
     <b-col md="6">
         <b-form-group label="Offset:" label-for="Offset">
-          <b-form-input id="Offset" v-model="tankData.Offset" required></b-form-input>
+          <b-form-input id="Offset" v-model="tankData.Offset" :disabled="user_type !== 'Engineer'" required></b-form-input>
         </b-form-group>
     </b-col>
     <b-col md="6">
         <b-form-group label="Po4:" label-for="Po4">
-          <b-form-input id="Po4" v-model="tankData.Po4" required></b-form-input>
+          <b-form-input id="Po4" v-model="tankData.Po4" :disabled="user_type !== 'Engineer'" required></b-form-input>
         </b-form-group>
     </b-col>
 
     <b-col md="6">
             <b-form-group label="Display unit:" label-for="DUOM">
-            <select v-model="tankData.Display_unit" class="custom-select" placeholder="Select Display unit">
+            <select v-model="tankData.Display_unit" class="custom-select" placeholder="Select Display unit" :disabled="user_type !== 'Engineer'">
                 <option disabled value="">Select Display unit</option>
                 <option v-for="item in measures" :key="item.id" :value="item.abbreviation">{{ item.abbreviation }}</option>
             </select>
@@ -131,22 +131,22 @@
 
     <b-col md="6">
         <b-form-group label="Tank height:" label-for="Tank_height">
-          <b-form-input id="Tank_height" v-model="tankData.Tank_height" required></b-form-input>
+          <b-form-input id="Tank_height" v-model="tankData.Tank_height" :disable="user_type !== 'Engineer'" required></b-form-input>
         </b-form-group>
     </b-col>
     <b-col md="6">
         <b-form-group label="Anomaly period:" label-for="Anomaly_period">
-          <b-form-input id="Anomaly_period" v-model="tankData.Anomaly_period" required></b-form-input>
+          <b-form-input id="Anomaly_period" v-model="tankData.Anomaly_period" :disabled="user_type !== 'Engineer'" required></b-form-input>
         </b-form-group>
     </b-col>
     <b-col md="6">
         <b-form-group label="Anomaly volume:" label-for="Anomaly_volume">
-          <b-form-input id="Anomaly_volume" v-model="tankData.Anomaly_volume" required></b-form-input>
+          <b-form-input id="Anomaly_volume" v-model="tankData.Anomaly_volume" :disabled="user_type !== 'Engineer'" required></b-form-input>
         </b-form-group>
     </b-col>
     <b-col md="6">
         <b-form-group label="Tank Note:" label-for="Tank_Note">
-          <b-form-input id="Tank_Note" v-model="tankData.Tank_Note" required></b-form-input>
+          <b-form-input id="Tank_Note" v-model="tankData.Tank_Note" :disabled="user_type !== 'Engineer'" required></b-form-input>
     </b-form-group>
     </b-col>
     </b-row>
@@ -202,6 +202,7 @@ export default {
         selectedShape: null,
         selectedUOM: null,
         selectedDUOM: null,
+        user_type: '',
         measures: [
                     {
                     "name": "Liters",
@@ -271,6 +272,12 @@ export default {
   },
   created() {
       this.tankData.Created_at = new Date().toISOString();
+      // Retrieve the data from localStorage
+      const user = localStorage.getItem('user');
+      // Parse the JSON string back to an object
+      const parsedData = JSON.parse(user);
+      this.user_type = parsedData.user_type;
+      console.log(this.user_type)
     // Fetch the list of tanks when the component is created
     this.fetchProducts();
   },
@@ -284,7 +291,6 @@ export default {
 
       this.tankData['product'] = this.selectedProductId.id
       this.tankData['Density'] = this.selectedProductId.density
-      console.log(this.tankData)
 
       axios.post('http://localhost:8000/tanks/', this.tankData)
         .then(response => {
