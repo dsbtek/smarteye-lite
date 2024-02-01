@@ -78,7 +78,7 @@ export default {
   align-items: center;
   justify-content: center;
   /* overflow-y: scroll; */
-  height: 100vh;
+  height: 100%;
   width: 100%;
 }
 
