@@ -131,29 +131,29 @@ class ProductUpdate(BaseModel):
 class TankBase(BaseModel):
     Name: str
     product: PositiveInt
-    Control_mode: str
-    Tank_controller: str
+    # Control_mode: str
+    # Tank_controller: str
     Controller_polling_address: conint(ge=1, le=10)
     Tank_index: conint(ge=1, le=999999)
     Capacity: PositiveInt
-    UOM: str
-    Shape: str
-    LL_Level: int
-    L_Level: int
-    HH_Level: int
-    H_Level: int
-    Reorder: int
-    Leak: int
+    # UOM: str
+    # Shape: str
+    # LL_Level: int
+    # L_Level: int
+    # HH_Level: int
+    # H_Level: int
+    # Reorder: int
+    # Leak: int
     Created_at: datetime
     Status: bool
-    Offset: float
-    Po4: float
-    Display_unit: str
-    Density: Optional[float]
+    # Offset: float
+    # Po4: float
+    # Display_unit: str
+    # Density: Optional[float]
     Tank_height: Optional[float]
-    Anomaly_period: Optional[float]
-    Anomaly_volume: Optional[float]
-    Tank_Note: str
+    # Anomaly_period: Optional[float]
+    # Anomaly_volume: Optional[float]
+    # Tank_Note: str
     
 class TankCreate(TankBase):
     product: int
@@ -163,29 +163,29 @@ class TankCreate(TankBase):
 class TankUpdate(BaseModel):
     Name: Optional[str]
     Product: Optional[PositiveInt]  # Optional field for updating the product
-    Control_mode: Optional[str]
-    Tank_controller: Optional[str]
+    # Control_mode: Optional[str]
+    # Tank_controller: Optional[str]
     Controller_polling_address: Optional[conint(ge=1, le=10)]
     Tank_index: Optional[conint(ge=1, le=999999)]
     Capacity: Optional[PositiveInt]
-    UOM: Optional[str]
-    Shape: Optional[str]
-    LL_Level: Optional[int]
-    L_Level: Optional[int]
-    HH_Level: Optional[int]
-    H_Level: Optional[int]
-    Reorder: Optional[int]
-    Leak: Optional[int]
+    # UOM: Optional[str]
+    # Shape: Optional[str]
+    # LL_Level: Optional[int]
+    # L_Level: Optional[int]
+    # HH_Level: Optional[int]
+    # H_Level: Optional[int]
+    # Reorder: Optional[int]
+    # Leak: Optional[int]
     Updated_at: Optional[datetime]
     Status: Optional[bool]
-    Offset: Optional[float]
-    Po4: Optional[float]
-    Display_unit: Optional[str]
-    Density: Optional[float]
+    # Offset: Optional[float]
+    # Po4: Optional[float]
+    # Display_unit: Optional[str]
+    # Density: Optional[float]
     Tank_height: Optional[float]
-    Anomaly_period: Optional[float]
-    Anomaly_volume: Optional[float]
-    Tank_Note: Optional[str]
+    # Anomaly_period: Optional[float]
+    # Anomaly_volume: Optional[float]
+    # Tank_Note: Optional[str]
     class Config:
         orm_mode = True
 

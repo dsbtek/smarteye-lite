@@ -51,6 +51,19 @@ export default {
     this.user_type = parsedData.user_type;
   },
   methods: {
+    alertError(msg) {
+        this.$notify.error({
+          title: 'Login Error',
+          message: msg
+        });
+      },
+    alertSuccess(msg) {
+        this.$notify({
+          title: 'Success',
+          message: msg,
+          type: 'success'
+        });
+      },
     closeAddTank() {
         this.CloseAdd_Tank();
     },
@@ -59,12 +72,14 @@ export default {
       axios.post('http://localhost:8000/products/', this.productData)
         .then(response => {
           console.log('Product created successfully:', response);
+          this.alertSuccess("Product created successfully")
           // Refresh the list of products after creation
           this.Close()
           this.refresh();
         })
         .catch(error => {
           console.error('Error creating product:', error.response);
+          this.alertError("Error creating product")
         });
     },
     fetchTanks() {

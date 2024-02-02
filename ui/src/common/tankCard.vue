@@ -107,6 +107,7 @@ methods:{
   align-items: center;
   justify-content: space-between;
   border: 1px solid #ccc;
+  color: rgb(85, 85, 86);
   padding-top: 20px;
   border-radius: 10px;
   width: 300px;

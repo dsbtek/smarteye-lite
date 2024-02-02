@@ -15,13 +15,15 @@
 
       </div>
       
-      <b-table striped hover :items="tanks" :fields="fields">
+      <b-table v-if="tanks.length>0" striped hover :items="tanks" :fields="fields" class="t-color">
       <template v-slot:cell(action)="data">
         <b-button @click="editTank(data.item)"  variant="outline-secondary">Edit</b-button>
         <b-button class="ms-2" @click="deleteTank(data.item)"  variant="outline-danger">Delete</b-button>
       </template>
     </b-table>
-
+    <div v-else class="no-rec">
+      <p>No Record Found.</p>
+    </div>
     </div>
   </template>
   
@@ -93,6 +95,19 @@
       this.fetchProducts();
     },
     methods: {
+      alertError(msg) {
+        this.$notify.error({
+          title: 'Login Error',
+          message: msg
+        });
+      },
+    alertSuccess(msg) {
+        this.$notify({
+          title: 'Success',
+          message: msg,
+          type: 'success'
+        });
+      },
         add_Tank(){
             return this.toggleAddTank = !this.toggleAddTank
         },
@@ -150,10 +165,12 @@
     axios.delete(`http://localhost:8000/tanks/${tank.Tank_id}`)
     .then(response => {
     console.log('Deleted tank:', response.data);
+    this.alertSuccess("Tank deleted successfully")
     this.fetchTanks();
     })
     .catch(error => {
     console.error('Error deleting tanks:', error.response);
+    this.alertError("Error deleting tank")
     });
     },
     },
@@ -167,7 +184,7 @@
     justify-content: center;
     height: 40px;
     width: 100%;
-    background-color: rgb(166, 166, 169);
+    background-color: rgb(85, 85, 86);
     color: aliceblue;
     margin: 5px;
   }
@@ -179,9 +196,12 @@
     justify-content: center;
     height: 40px;
     width: 90%;
-    background-color: rgb(166, 166, 169);
+    background-color: rgb(85, 85, 86);
     color: aliceblue;
     margin: 5px;
+  }
+  .t-color {
+    color: rgb(85, 85, 86);
   }
   .table-add-tank {
     display: flex;
@@ -190,12 +210,18 @@
     justify-content: center;
     height: 40px;
     width: 10%;
-    background-color: rgb(166, 166, 169);
+    background-color: rgb(85, 85, 86);
     color: aliceblue;
     margin: 5px;
   }
   .table-add-tank:hover {
     cursor: pointer;
     color: rgb(199, 200, 201);
+  }
+  .no-rec {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
   }
   </style>

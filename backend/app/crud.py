@@ -53,21 +53,12 @@ def read_user(user_id: int, db: Session = Depends(get_db)):
 
 # Create or update tank logs with temperature
 @router.post("/tank-logs-temp/")
-async def create_or_update_temp_tank_logs(request: Request, db: Session = Depends(get_db)):
-    try:
-        tank_datas = await request.json()
-    except ValueError:
-        raise HTTPException(status_code=400, detail="Invalid JSON data in the request body")
-
-    if not isinstance(tank_datas, list):
-        raise HTTPException(status_code=400, detail="Input should be a list")
-
+async def create_or_update_temp_tank_logs(tank_datas: List[List[str]], db: Session = Depends(get_db)):
     for tank_data in tank_datas:
         local_id, date_time, multicont_polling_address, tank_index, temp_1, temp_2, temp_3, temp_4, temp_5, avg_temp, tank_id, vol, tcv, height, capacity, atg_time = tank_data
-        try:
-            existing_record = db.query(models.TankTemperature).filter(models.TankTemperature.tank_id == tank_id).first()
-        except:
-            continue
+
+        existing_record = db.query(models.TankTemperature).filter(models.TankTemperature.tank_id == tank_id).first()
+
         update_data = {
             'date_time': date_time,
             'multicont_polling_address': multicont_polling_address,
@@ -86,21 +77,16 @@ async def create_or_update_temp_tank_logs(request: Request, db: Session = Depend
             'capacity': capacity,
             'atg_time': atg_time
         }
+
         if existing_record:
-            try:
-                db.query(models.TankTemperature).filter(models.TankTemperature.tank_id == tank_id).update(update_data)
-                db.commit()
-                count_d += 1
-            except:
-                continue
+            db.query(models.TankTemperature).filter(models.TankTemperature.tank_id == tank_id).update(update_data)
+            db.commit()
         else:
-            try:
-                db_latest_tank_log_temp = models.TankTemperature(**update_data)
-                db.add(db_latest_tank_log_temp)
-                db.commit()
-            except:
-                continue
-    return "Record Inserted/Updated Successfully"
+            db_latest_tank_log_temp = models.TankTemperature(**update_data)
+            db.add(db_latest_tank_log_temp)
+            db.commit()
+
+    return {"message": "Record(s) Inserted/Updated Successfully"}
 
 # Get all tank logs with temperature
 @router.get("/tank-logs-temp/")
@@ -108,12 +94,15 @@ def get_all_temp_tank_logs(db: Session = Depends(get_db)):
     temp_tank_logs = db.query(models.TankTemperature).all()
     res = []
     for tank in temp_tank_logs:
-        get_tank = db.query(models.Tanks).filter(models.Tanks.id==tank.tank_id).first()
-        if get_tank:
-            tank.product = get_tank.product.Code
-            tank.tank_name = get_tank.Name
-            res.append(tank)
-        else:
+        try:
+            get_tank = db.query(models.Tanks).filter(models.Tanks.id==tank.tank_id).first()
+            if get_tank:
+                tank.product = get_tank.product.Code
+                tank.tank_name = get_tank.Name
+                res.append(tank)
+            else:
+                continue
+        except:
             continue
     return res
 
@@ -232,7 +221,7 @@ async def login_for_access_token(form_data: schemas.UserLogin, db: Session = Dep
     user = db.query(models.User).filter(models.User.email == form_data.username).first()
     if not user or not user.verify_password(form_data.password):
         raise HTTPException(
-            status_code=status.HTTP_401_UNAUTHORIZED,
+            status_code=status.HTTP_400_BAD_REQUEST,
             detail="Incorrect username or password",
             headers={"WWW-Authenticate": "Bearer"},
         )
@@ -334,29 +323,29 @@ def create_tank(tank: schemas.TankCreate, db: Session = Depends(get_db)):
     # Create a new Tanks instance without passing product as a keyword argument
     db_tank = models.Tanks(
         Name=tank.Name,
-        Control_mode=tank.Control_mode,
-        Tank_controller=tank.Tank_controller,
+        # Control_mode=tank.Control_mode,
+        # Tank_controller=tank.Tank_controller,
         Controller_polling_address=tank.Controller_polling_address,
         Tank_index=tank.Tank_index,
         Capacity=tank.Capacity,
-        UOM=tank.UOM,
-        Shape=tank.Shape,
-        LL_Level=tank.LL_Level,
-        L_Level=tank.L_Level,
-        HH_Level=tank.HH_Level,
-        H_Level=tank.H_Level,
-        Reorder=tank.Reorder,
-        Leak=tank.Leak,
+        # UOM=tank.UOM,
+        # Shape=tank.Shape,
+        # LL_Level=tank.LL_Level,
+        # L_Level=tank.L_Level,
+        # HH_Level=tank.HH_Level,
+        # H_Level=tank.H_Level,
+        # Reorder=tank.Reorder,
+        # Leak=tank.Leak,
         Created_at=tank.Created_at,
         Status=tank.Status,
-        Offset=tank.Offset,
+        # Offset=tank.Offset,
         Po4=tank.Po4,
         Display_unit=tank.Display_unit,
-        Density=tank.Density,
+        # Density=tank.Density,
         Tank_height=tank.Tank_height,
-        Anomaly_period=tank.Anomaly_period,
-        Anomaly_volume=tank.Anomaly_volume,
-        Tank_Note=tank.Tank_Note,
+        # Anomaly_period=tank.Anomaly_period,
+        # Anomaly_volume=tank.Anomaly_volume,
+        # Tank_Note=tank.Tank_Note,
         product=db_product  # Assign the product directly here, not as a keyword argument
     )
 

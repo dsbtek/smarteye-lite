@@ -62,9 +62,9 @@ class Products(Base):
     __tablename__ = 'products'
 
     id = Column(Integer, primary_key=True, autoincrement="auto")
-    Name = Column(String(50), nullable=False)
-    Code = Column(String(10), nullable=False)
-    density = Column(String(10), nullable=False)
+    Name = Column(String(50), nullable=False, unique=True)
+    Code = Column(String(10), nullable=False, unique=True)
+    density = Column(Integer(10), nullable=False)
     Created_at = Column(DateTime, nullable=False, server_default=func.current_timestamp())
     Updated_at = Column(DateTime, nullable=False, server_default=func.current_timestamp(), onupdate=func.current_timestamp())
     Deleted_at = Column(DateTime, nullable=True)

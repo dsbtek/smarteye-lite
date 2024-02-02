@@ -1,5 +1,6 @@
 <template>
   <div id="app">
+   
     <div class="wrap-container">
       <div class="header">
         <img :src="logo" alt="Logo" class="image-size-logo" />
@@ -32,8 +33,8 @@
 
       <div class="login-modal-wrap">
         <b-modal id="login-modal" size="lg" centered hide-footer title="Login">
-          <LoginUser />
-        </b-modal>
+        <LoginUser />
+      </b-modal>
 
         <b-modal id="product-modal" size="lg" centered hide-footer title="Product">
           <ProductList />
@@ -61,13 +62,14 @@ import LoginUser from './components/LoginUser.vue'
 import ProductList from './common/ProductList.vue'
 import TankList from './common/TankList.vue'
 
+
 export default {
   name: 'App',
   components: {
     home,
     LoginUser,
     ProductList,
-    TankList
+    TankList,
   },
   data() {
     return {
@@ -85,6 +87,7 @@ export default {
       ]
     };
   },
+  
   created() {
     // Call the fetchData method every 90 seconds
     setInterval(this.fetchData, 9000); // 90 seconds = 90,000 milliseconds
@@ -245,31 +248,4 @@ body {
   height: 50%;
 }
 
-  /* Style for the selection box */
-  /* .b-form-select {
-    width: 500px; 
-    margin-left: 10px; 
-  } */
-
-  /* .b-form-select::after {
-    border-color: #c1c3c5 transparent transparent; 
-  }
-
-  .b-form-select::placeholder {
-    color: #c1c3c5;
-  }
-
-  .b-form-select-option {
-    color: #2c3e50;
-  }
-
-  .b-form-select-menu {
-    background-color: #ffffff;
-    border: 1px solid #c1c3c5;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  }
-
-  .b-form-select-menu .b-form-select-option:hover {
-    background-color: #f0f0f0;
-  } */
 </style>

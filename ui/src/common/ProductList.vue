@@ -5,7 +5,7 @@
 
     <hr>
 
-    <div v-if="products.length > 0">
+    <div>
 
       <div class="table-header">
        <div class="table-title">
@@ -16,17 +16,17 @@
        </div>
 
      </div>
-      <b-table striped hover :items="products" :fields="fields">
+      <b-table v-if="products.length>0" striped hover :items="products" :fields="fields" class="t-color">
       <template v-slot:cell(action)="data">
         <b-button @click="editProduct(data.item)"  variant="outline-secondary">Edit</b-button>
         <b-button class="ms-2" @click="deleteProduct(data.item)"  variant="outline-danger">Delete</b-button>
       </template>
     </b-table>
-
-    </div>
-    <div v-else>
+    <div v-else class="no-rec">
       <p>No Record Found.</p>
     </div>
+    </div>
+    
   </div>
 </template>
 
@@ -74,6 +74,19 @@ export default {
     this.fetchProducts();
   },
   methods: {
+    alertError(msg) {
+        this.$notify.error({
+          title: 'Login Error',
+          message: msg
+        });
+      },
+    alertSuccess(msg) {
+        this.$notify({
+          title: 'Success',
+          message: msg,
+          type: 'success'
+        });
+      },
       add_product(){
           return this.toggleAddProduct = !this.toggleAddProduct
       },
@@ -109,10 +122,12 @@ export default {
       axios.delete(`http://localhost:8000/products/${product.id}`)
           .then(response => {
             console.log('Deleted product:', response.data);
+            this.alertSuccess("Product deleted successfully")
             this.fetchProducts();
           })
           .catch(error => {
             console.error('Error deleting tanks:', error.response);
+            this.alertError("Error deleting product")
           });
     },
   },
@@ -127,9 +142,12 @@ export default {
     justify-content: center;
     height: 40px;
     width: 100%;
-    background-color: rgb(166, 166, 169);
+    background-color: rgb(85, 85, 86);
     color: aliceblue;
     margin: 5px;
+  }
+  .t-color {
+    color: rgb(85, 85, 86);
   }
 
   .table-title {
@@ -139,7 +157,7 @@ export default {
     justify-content: center;
     height: 40px;
     width: 90%;
-    background-color: rgb(166, 166, 169);
+    background-color: rgb(85, 85, 86);
     color: aliceblue;
     margin: 5px;
   }
@@ -150,12 +168,18 @@ export default {
     justify-content: center;
     height: 40px;
     width: 10%;
-    background-color: rgb(166, 166, 169);
+    background-color: rgb(85, 85, 86);
     color: aliceblue;
     margin: 5px;
   }
   .table-add-tank:hover {
     cursor: pointer;
     color: rgb(199, 200, 201);
+  }
+  .no-rec {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
   }
   </style>

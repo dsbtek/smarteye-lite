@@ -53,6 +53,19 @@ export default {
     this.productData.density= this.editData?.density
  },
  methods: {
+  alertError(msg) {
+        this.$notify.error({
+          title: 'Login Error',
+          message: msg
+        });
+      },
+    alertSuccess(msg) {
+        this.$notify({
+          title: 'Success',
+          message: msg,
+          type: 'success'
+        });
+      },
    closeAddTank() {
        this.CloseAdd_Tank();
    },
@@ -61,11 +74,13 @@ export default {
       axios.put(`http://localhost:8000/products/${this.editData.id}`, this.productData)
         .then(response => {
             console.log('Product updated successfully:', response);
+            this.alertSuccess("Product updated successfully")
             this.refresh();
             this.Close();
         })
         .catch(error => {
           console.error('Error updating product:', error.response);
+          this.alertError("Error updating product")
         });
     },
   

@@ -32,12 +32,10 @@
                 placeholder="Enter your password"
               ></b-form-input>
             </b-form-group>
-
-            <b-button type="submit" variant="primary">Login</b-button>
+            <br />
+            <b-button type="submit" variant="outline-secondary">Login</b-button>
           </b-form>
-          <!-- Apply style to make the modal body fill the width -->
           <b-card-body style="width: 100%;">
-            <!-- Your modal body content goes here -->
           </b-card-body>
         </b-card>
       </b-col>
@@ -48,6 +46,9 @@
 <script>
 import axios from "axios";
 export default {
+  components: {
+    
+  },
   data() {
     return {
       username: "",
@@ -75,29 +76,42 @@ export default {
     },
   },
   methods: {
+    alertError(msg) {
+        this.$notify.error({
+          title: 'Login Error',
+          message: msg
+        });
+      },
+      alertSuccess(msg) {
+        this.$notify({
+          title: 'Success',
+          message: msg,
+          type: 'success'
+        });
+      },
+    
+    
     login() {
       if (this.nameState && this.passwordState) {
         const credentials = {
           username: this.username,
           password: this.password,
         };
-        console.log(credentials);
 
-        // Replace 'YOUR_LOGIN_ENDPOINT' with the actual login endpoint
-        axios.post('http://localhost:8000/login', credentials)
+         axios.post('http://localhost:8000/login', credentials)
           .then(response => {
-            localStorage.setItem('token', response.data.access_token);
-            localStorage.setItem('user', JSON.stringify(response.data.user));
-            console.log(response.data);
+            this.alertSuccess("Login Success")
+            localStorage.setItem('token', response?.data?.access_token);
+            localStorage.setItem('user', JSON.stringify(response?.data?.user));
             this.$emit('$bvModal.hide("login-modal")');
             window.location.reload()
-          })
+          }) 
           .catch(error => {
-            // Handle login error
-            console.error(error.response.data);
+            this.alertError(error?.response?.data?.detail)
           });
+          
       } else {
-        console.error('Invalid inputs. Please check your username and password.');
+            this.alertError("You most provide your credentials before login")
       }
     },
   },

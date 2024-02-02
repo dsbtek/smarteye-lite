@@ -18,17 +18,17 @@
             </b-form-group>
         </b-col>
 
-    <b-col md="6">
+    <!-- <b-col md="6">
         <b-form-group label="Control mode:" label-for="Control_mode">
           <b-form-input id="Control_mode" v-model="tankData.Control_mode" placeholder="Enter Control Mode" :disabled="user_type !== 'Engineer'" required></b-form-input>
         </b-form-group>
-    </b-col>
-
+    </b-col> -->
+<!-- 
     <b-col md="6">
         <b-form-group label="Tank Controller:" label-for="Tank_controller">
           <b-form-input id="Tank_controller" v-model="tankData.Tank_controller" placeholder="Enter Tank Controller" :disabled="user_type !== 'Engineer'" required></b-form-input>
         </b-form-group>
-    </b-col>
+    </b-col> -->
 
     <b-col md="6">
         <b-form-group label="Controller Polling Address:" label-for="Controller_polling_address">
@@ -37,10 +37,17 @@
     </b-col>
 
     <b-col md="6">
-        <b-form-group label="Tank Index:" label-for="Tank_index">
-          <b-form-input id="Tank_index" v-model="tankData.Tank_index" placeholder="Enter Tank Index" :disabled="user_type !== 'Engineer'" required></b-form-input>
-        </b-form-group>
-    </b-col>
+            <b-form-group label="Tank Index:" label-for="Tank_index">
+            <select v-model="tankData.Tank_index"  class="custom-select" placeholder="Select Tank Index"  :disabled="user_type !== 'Engineer'">
+                <option disabled value="">Select Tank Index</option>
+                <option>1</option>
+                <option>2</option>
+                <option>3</option>
+                <option>4</option>
+
+            </select>
+            </b-form-group>
+        </b-col>
 
     <b-col md="6">
         <b-form-group label="Capacity:" label-for="Capacity">
@@ -48,25 +55,25 @@
         </b-form-group>
     </b-col>
 
-    <b-col md="6">
+    <!-- <b-col md="6">
             <b-form-group label="UOM:" label-for="UOM">
             <select v-model="tankData.UOM" class="custom-select" placeholder="Select UOM" :disabled="user_type !== 'Engineer'">
                 <option disabled value="">Select UOM</option>
                 <option v-for="item in measures" :key="item.id" :value="item.name">{{ item.name }}</option>
             </select>
             </b-form-group>
-    </b-col>
+    </b-col> -->
 
-    <b-col md="6">
+    <!-- <b-col md="6">
             <b-form-group label="Shape:" label-for="Shape">
             <select v-model="tankData.Shape" class="custom-select" placeholder="Select Shape" :disabled="user_type !== 'Engineer'">
                 <option disabled value="">Select Shape</option>
                 <option v-for="item in shapes" :key="item.id" :value="item.name">{{ item.name }}</option>
             </select>
             </b-form-group>
-    </b-col>
+    </b-col> -->
 
-    <b-col md="6">
+    <!-- <b-col md="6">
         <b-form-group label="LL Level:" label-for="LL_Level">
           <b-form-input id="LL_Level" v-model="tankData.LL_Level" required></b-form-input>
         </b-form-group>
@@ -88,15 +95,15 @@
         <b-form-group label="H Level:" label-for="H_Level">
           <b-form-input id="H_Level" v-model="tankData.H_Level" required></b-form-input>
         </b-form-group>
-    </b-col>
+    </b-col> -->
 
-    <b-col md="6">
+    <!-- <b-col md="6">
         <b-form-group label="Reorder:" label-for="Reorder">
           <b-form-input id="Reorder" v-model="tankData.Reorder" :disabled="user_type !== 'Engineer'"  required></b-form-input>
         </b-form-group>
-    </b-col>
+    </b-col> -->
 
-    <b-col md="6">
+    <!-- <b-col md="6">
         <b-form-group label="Leak:" label-for="Leak" >
           <b-form-input id="Leak" v-model="tankData.Leak" :disabled="user_type !== 'Engineer'"  required></b-form-input>
         </b-form-group>
@@ -106,7 +113,7 @@
         <b-form-group label="Offset:" label-for="Offset">
           <b-form-input id="Offset" v-model="tankData.Offset" :disabled="user_type !== 'Engineer'" required></b-form-input>
         </b-form-group>
-    </b-col>
+    </b-col> -->
 
     <b-col md="6">
         <b-form-group label="Po4:" label-for="Po4">
@@ -129,7 +136,7 @@
         </b-form-group>
     </b-col>
 
-    <b-col md="6">
+    <!-- <b-col md="6">
         <b-form-group label="Anomaly period:" label-for="Anomaly_period">
           <b-form-input id="Anomaly_period" v-model="tankData.Anomaly_period" :disabled="user_type !== 'Engineer'" required></b-form-input>
         </b-form-group>
@@ -145,7 +152,7 @@
         <b-form-group label="Tank Note:" label-for="Tank_Note">
           <b-form-input id="Tank_Note" v-model="tankData.Tank_Note" :disabled="user_type !== 'Engineer'" required></b-form-input>
         </b-form-group>
-    </b-col>
+    </b-col> -->
 
     </b-row>
 
@@ -173,28 +180,14 @@ export default {
         tankData: {
             Name: '',
             product: '',
-            Control_mode: '',
-            Tank_controller: '',
             Controller_polling_address: '',
             Tank_index: '',
             Capacity: '',
-            UOM: '',
-            Shape: '',
-            LL_Level: '',
-            L_Level: '',
-            HH_Level: '',
-            H_Level: '',
-            Reorder: '',
-            Leak: '',
             Status: false,
-            Offset: '',
             Po4: '',
             Display_unit: '',
             Density: '',
             Tank_height: '',
-            Anomaly_period: '',
-            Anomaly_volume: '',
-            Tank_Note: '',
         },
         tanks: [],
         products: [],
@@ -278,32 +271,32 @@ export default {
         this.user_type = parsedData.user_type;
         // Fetch the list of tanks when the component is created
         this.fetchProducts();
+        this.selectedProductId = this.editData?.Product_id?.Name,
         this.tankData.Name=this.editData?.Name,
-        this.tankData.product= this.editData?.Product_id.Name,
-        this.tankData.Control_mode= this.editData?.Control_mode,
-        this.tankData.Tank_controller= this.editData?.Tank_controller,
+        this.tankData.product= this.editData?.Product_id,
         this.tankData.Controller_polling_address= this.editData?.Controller_polling_address,
         this.tankData.Tank_index= this.editData?.Tank_index,
         this.tankData.Capacity= this.editData?.Capacity,
-        this.tankData.UOM= this.editData?.UOM,
-        this.tankData.Shape= this.editData?.Shape,
-        this.tankData.LL_Level= this.editData?.LL_Level,
-        this.tankData.L_Level= this.editData?.L_Level,
-        this.tankData.HH_Level= this.editData?.HH_Level,
-        this.tankData.H_Level= this.editData?.H_Level,
-        this.tankData.Reorder= this.editData?.Reorder,
-        this.tankData.Leak= this.editData?.Leak,
         this.tankData.Status= this.editData?.Status,
-        this.tankData.Offset= this.editData?.Offset,
-        this.tankData.Po4= this.editData?.Po4,
-        this.tankData.Display_unit= this.editData?.Display_unit,
-        this.tankData.Density= this.editData?.Density,
-        this.tankData.Tank_height= this.editData?.Tank_height,
-        this.tankData.Anomaly_period= this.editData?.Anomaly_period,
-        this.tankData.Anomaly_volume= this.editData?.Anomaly_volume,
-        this.tankData.Tank_Note= this.editData?.Tank_Note
+        // this.tankData.Po4= this.editData?.Po4,
+        // this.tankData.Display_unit= this.editData?.Display_unit,
+        // this.tankData.Density= this.editData?.Density,
+        this.tankData.Tank_height= this.editData?.Tank_height
   },
     methods: {
+      alertError(msg) {
+        this.$notify.error({
+          title: 'Login Error',
+          message: msg
+        });
+      },
+    alertSuccess(msg) {
+        this.$notify({
+          title: 'Success',
+          message: msg,
+          type: 'success'
+        });
+      },
     closeEditTank() {
         this.Close();
     },
@@ -315,11 +308,13 @@ export default {
     axios.put(`http://localhost:8000/tanks/${this.editData.Tank_id}`, this.tankData)
     .then(response => {
     console.log('Tank updated successfully:', response);
+    this.alertSuccess('Tank updated successfully')
     this.refresh();
     this.Close();
     })
     .catch(error => {
         console.error('Error creating tank:', error.response);
+        this.alertError("Error updating tank")
     });
     },
     fetchTanks() {
