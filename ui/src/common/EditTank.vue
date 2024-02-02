@@ -115,7 +115,7 @@
         </b-form-group>
     </b-col> -->
 
-    <b-col md="6">
+    <!-- <b-col md="6">
         <b-form-group label="Po4:" label-for="Po4">
           <b-form-input id="Po4" v-model="tankData.Po4" :disabled="user_type !== 'Engineer'" required></b-form-input>
         </b-form-group>
@@ -128,7 +128,7 @@
                 <option v-for="item in measures" :key="item.id" :value="item.abbreviation">{{ item.abbreviation }}</option>
             </select>
             </b-form-group>
-    </b-col>
+    </b-col> -->
 
     <b-col md="6">
         <b-form-group label="Tank height:" label-for="Tank_height" >
@@ -184,9 +184,6 @@ export default {
             Tank_index: '',
             Capacity: '',
             Status: false,
-            Po4: '',
-            Display_unit: '',
-            Density: '',
             Tank_height: '',
         },
         tanks: [],
