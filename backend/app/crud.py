@@ -70,7 +70,7 @@ async def create_or_update_temp_tank_logs(tank_datas: List[List[str]], db: Sessi
             'temp_5': temp_5,
             'avg_temp': avg_temp,
             'tank_id': tank_id,
-            'vol': vol,
+            'vol': vol * 1000,
             'tcv': tcv,
             'local_id': local_id,
             'height': height,

@@ -146,5 +146,6 @@ class TankTemperature(Base):
     capacity = Column(Float)
     atg_time = Column(String, nullable=True)
     product = Column(String, nullable=True)
+    db_fill_time = Column(DateTime, nullable=False, server_default=func.current_timestamp(), onupdate=func.current_timestamp())
     
     
