@@ -2,11 +2,8 @@
   <div>
       <EditProduct :editData="editData" :Close="CloseEdit_product" :refresh="fetchProducts" v-if="toggleEditProduct" />
       <AddProduct :Close="CloseAdd_product" :refresh="fetchProducts" v-if="toggleAddProduct" />
-
     <hr>
-
     <div>
-
       <div class="table-header">
        <div class="table-title">
             <h3>List of Products</h3> 
@@ -61,6 +58,14 @@ export default {
         // Add an action column
         { key: 'action', label: 'Action' },
       ],
+      coptions: {
+      year: 'numeric',
+      month: '2-digit',
+      day: '2-digit',
+      hour: '2-digit',
+      minute: '2-digit',
+      second: '2-digit',
+    }
     };
   },
   created() {
@@ -74,6 +79,7 @@ export default {
     this.fetchProducts();
   },
   methods: {
+    formattedDateTime(date_str) { return date_str.toLocaleString('en-US', this.options).replace(/(\d+)\/(\d+)\/(\d+),?/, '$3-$1-$2')},
     alertError(msg) {
         this.$notify.error({
           title: 'Login Error',

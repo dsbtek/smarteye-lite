@@ -129,6 +129,7 @@ export default {
     return 0;
   },
 },
+
 };
 </script>
 
@@ -157,7 +158,7 @@ export default {
   align-items: center;
   justify-content: center;
   /* background-color:rgb(9, 56, 56); */
-  color: rgb(85, 85, 86);
+  color: rgb(255, 255, 255);
   width: 50%;
   height:100%;
 }

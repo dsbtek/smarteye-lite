@@ -1,3 +1,5 @@
+import json
+import math
 from fastapi import APIRouter, Depends, HTTPException, status, Request
 from fastapi.security import OAuth2PasswordBearer
 from sqlalchemy.orm import Session
@@ -89,17 +91,41 @@ async def create_or_update_temp_tank_logs(tank_datas: List[List[str]], db: Sessi
     return {"message": "Record(s) Inserted/Updated Successfully"}
 
 # Get all tank logs with temperature
+class CustomEncoder(json.JSONEncoder):
+    def default(self, obj):
+        if isinstance(obj, float) and (obj == float('inf') or obj == float('-inf') or math.isnan(obj)):
+            return str(obj)
+        return super().default(obj)
+
 @router.get("/tank-logs-temp/")
 def get_all_temp_tank_logs(db: Session = Depends(get_db)):
-    temp_tank_logs = db.query(models.TankTemperature).all()
+    get_tank = db.query(models.Tanks).all()
     res = []
-    for tank in temp_tank_logs:
+    
+    for tank in get_tank:
         try:
-            get_tank = db.query(models.Tanks).filter(models.Tanks.id==tank.tank_id).first()
-            if get_tank:
-                tank.product = get_tank.product.Code
-                tank.tank_name = get_tank.Name
-                res.append(tank)
+            temp_tank_logs = db.query(models.TankTemperature).filter(models.TankTemperature.tank_id == tank.id).first()
+            product = db.query(models.Products).filter(models.Products.id == tank.product_id).first()
+            if temp_tank_logs:
+                tank_dict = {
+                    'vol': temp_tank_logs.vol,
+                    'temp_1': temp_tank_logs.temp_1,
+                    'temp_2': temp_tank_logs.temp_2,
+                    'temp_3': temp_tank_logs.temp_3,
+                    'temp_4': temp_tank_logs.temp_4,
+                    'temp_5': temp_tank_logs.temp_5,
+                    'avg_temp': temp_tank_logs.avg_temp,
+                    'height': tank.Tank_height,
+                    'capacity': tank.Capacity,
+                    'tank_name': tank.Name,
+                    'tank_id': tank.id,
+                    'tcv': temp_tank_logs.tcv,
+                    'atg_time': temp_tank_logs.atg_time,
+                    'tcv': temp_tank_logs.tcv,
+                    'date_time': temp_tank_logs.date_time,
+                    'product': product.Code,
+                }
+                res.append(tank_dict)
             else:
                 continue
         except:

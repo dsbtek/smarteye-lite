@@ -122,7 +122,7 @@ class Tanks(Base):
     product = relationship("Products", back_populates="tank")
 
     def __repr__(self):
-        return f'Tank:{self.Name}'
+        return f"<Tanks(id={self.id}, Name={self.Name}, Control_mode={self.Control_mode})>"
 
 class TankTemperature(Base):
     __tablename__ = "tank_temperature"
