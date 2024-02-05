@@ -1,4 +1,4 @@
-from sqlalchemy import Boolean, Column, ForeignKey, Integer, String, DateTime, Float
+from sqlalchemy import Boolean, Column, ForeignKey, Integer, String, DateTime, Float, UniqueConstraint
 from sqlalchemy.orm import relationship
 from sqlalchemy.sql import func
 from .database import Base
@@ -92,7 +92,7 @@ class Tanks(Base):
     ]
 
     id = Column(Integer, primary_key=True, autoincrement=True)
-    Name = Column(String(50), nullable=False)
+    Name = Column(String(50), nullable=False, unique=True)
     Control_mode = Column(String(50), default='C')
     Tank_controller = Column(String(50), default='MTC')
     Controller_polling_address = Column(Integer, nullable=False, server_default='1')
@@ -120,6 +120,10 @@ class Tanks(Base):
     Tank_Note = Column(String(25), nullable=True)
     product_id = Column(Integer, ForeignKey('products.id'))
     product = relationship("Products", back_populates="tank")
+    
+    __table_args__ = (
+        UniqueConstraint('Controller_polling_address', 'Tank_index', name='unique_polling_tank'),
+    )
 
     def __repr__(self):
         return f"<Tanks(id={self.id}, Name={self.Name}, Control_mode={self.Control_mode})>"

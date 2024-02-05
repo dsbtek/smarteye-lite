@@ -106,7 +106,7 @@ def get_all_temp_tank_logs(db: Session = Depends(get_db)):
         try:
             temp_tank_logs = db.query(models.TankTemperature).filter(models.TankTemperature.tank_id == tank.id).first()
             product = db.query(models.Products).filter(models.Products.id == tank.product_id).first()
-            if temp_tank_logs:
+            if temp_tank_logs != None:
                 tank_dict = {
                     'vol': temp_tank_logs.vol,
                     'temp_1': temp_tank_logs.temp_1,
@@ -127,7 +127,25 @@ def get_all_temp_tank_logs(db: Session = Depends(get_db)):
                 }
                 res.append(tank_dict)
             else:
-                continue
+                tank_dict = {
+                    'vol': 0.0,
+                    'temp_1': 0.0,
+                    'temp_2': 0.0,
+                    'temp_3': 0.0,
+                    'temp_4': 0.0,
+                    'temp_5': 0.0,
+                    'avg_temp': 0.0,
+                    'height': tank.Tank_height,
+                    'capacity': tank.Capacity,
+                    'tank_name': tank.Name,
+                    'tank_id': tank.id,
+                    'tcv': 0.0,
+                    'atg_time': "N/A",
+                    'tcv': 0.0,
+                    'date_time': "N/A",
+                    'product': "N/A",
+                }
+                res.append(tank_dict)
         except:
             continue
     return res
