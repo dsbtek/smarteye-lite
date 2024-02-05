@@ -1,7 +1,7 @@
 <template>
     <div>
-      <AddTank :Close="CloseAdd_Tank" :refresh="fetchProducts" v-if="toggleAddTank" />
-      <EditTank :editData="editData" :Close="CloseEdit_Tank" :refresh="fetchProducts" v-if="toggleEditTank" />
+      <AddTank :Close="CloseAdd_Tank" :refresh="fetchTanks" v-if="toggleAddTank" />
+      <EditTank :editData="editData" :Close="CloseEdit_Tank" :refresh="fetchTanks" v-if="toggleEditTank" />
     
       <hr>
       <div class="table-header">

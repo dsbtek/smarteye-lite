@@ -105,16 +105,32 @@ export default {
     handleClick() {
       this.$emit('closeModal');
     },
-  getHourDifference(dateTime2) {
+    getHourDifference(dateTime2) {
     const dateTime1 = new Date();
     const timestamp1 = new Date(dateTime1).getTime();
     const timestamp2 = new Date(dateTime2).getTime();
+
+    // Check if either date is invalid
+    if (isNaN(timestamp1) || isNaN(timestamp2)) {
+        return "Inactive";
+    }
+
     // Calculate the time difference in milliseconds
     const timeDifference = Math.abs(timestamp2 - timestamp1);
+    
+    // Check if timeDifference is NaN (which could happen in some edge cases)
+    if (isNaN(timeDifference)) {
+        return "Inactive";
+    }
+
     // Convert the time difference to hours
     const hoursDifference = timeDifference / (1000 * 60 * 60);
-      if (hoursDifference > 2)  {return "Offline"} else {return "Online"}
-  },
+    if (hoursDifference > 2) {
+        return "Offline";
+    } else {
+        return "Online";
+    }
+},
   formattedNumber(num){ return num.toLocaleString('en-US', {
     minimumFractionDigits: 3,
     maximumFractionDigits: 3,
@@ -235,6 +251,11 @@ p {
   width: 70px;
 }
 .Offline {
+  border-radius: 5px;
+  background-color:#f1f116;
+  width: 70px;
+}
+.Inactive {
   border-radius: 5px;
   background-color:#f1168b;
   width: 70px;

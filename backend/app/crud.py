@@ -1,6 +1,6 @@
 import json
 import math
-from fastapi import APIRouter, Depends, HTTPException, status, Request
+from fastapi import APIRouter, Depends, HTTPException, Response, status, Request
 from fastapi.security import OAuth2PasswordBearer
 from sqlalchemy.orm import Session
 from jose import JWTError, jwt
@@ -58,9 +58,7 @@ def read_user(user_id: int, db: Session = Depends(get_db)):
 async def create_or_update_temp_tank_logs(tank_datas: List[List[str]], db: Session = Depends(get_db)):
     for tank_data in tank_datas:
         local_id, date_time, multicont_polling_address, tank_index, temp_1, temp_2, temp_3, temp_4, temp_5, avg_temp, tank_id, vol, tcv, height, capacity, atg_time = tank_data
-
         existing_record = db.query(models.TankTemperature).filter(models.TankTemperature.tank_id == tank_id).first()
-
         update_data = {
             'date_time': date_time,
             'multicont_polling_address': multicont_polling_address,
@@ -72,14 +70,13 @@ async def create_or_update_temp_tank_logs(tank_datas: List[List[str]], db: Sessi
             'temp_5': temp_5,
             'avg_temp': avg_temp,
             'tank_id': tank_id,
-            'vol': vol * 1000,
+            'vol':int(vol) * 1000,
             'tcv': tcv,
             'local_id': local_id,
             'height': height,
             'capacity': capacity,
             'atg_time': atg_time
         }
-
         if existing_record:
             db.query(models.TankTemperature).filter(models.TankTemperature.tank_id == tank_id).update(update_data)
             db.commit()

@@ -62,106 +62,12 @@
         </b-form-group>
     </b-col>
 
-    <!-- <b-col md="6">
-            <b-form-group label="UOM:" label-for="UOM">
-            <select v-model="tankData.UOM" class="custom-select" placeholder="Select UOM" :disabled="user_type !== 'Engineer'">
-                <option disabled value="">Select UOM</option>
-                <option v-for="item in measures" :key="item.id" :value="item.name">{{ item.name }}</option>
-            </select>
-            </b-form-group>
-    </b-col> -->
-
-    <!-- <b-col md="6">
-        <b-form-group label="UOM:" label-for="UOM">
-          <b-form-input id="UOM" v-model="tankData.UOM" placeholder="Select Unit of Measures" required></b-form-input>
-        </b-form-group>
-    </b-col> -->
-
-    <!-- <b-col md="6">
-            <b-form-group label="Shape:" label-for="Shape">
-            <select v-model="tankData.Shape" class="custom-select" placeholder="Select Shape" :disabled="user_type !== 'Engineer'">
-                <option disabled value="">Select Shape</option>
-                <option v-for="item in shapes" :key="item.id" :value="item.name">{{ item.name }}</option>
-            </select>
-            </b-form-group>
-    </b-col> -->
-
-    <!-- <b-col md="6">
-        <b-form-group label="Shape:" label-for="Shape">
-          <b-form-input id="Shape" v-model="tankData.Shape" required></b-form-input>
-        </b-form-group>
-    </b-col> -->
-
-    <!-- <b-col md="6">
-        <b-form-group label="LL Level:" label-for="LL_Level">
-          <b-form-input id="LL_Level" v-model="tankData.LL_Level" :disabled="user_type !== 'Engineer'"  required></b-form-input>
-        </b-form-group>
-    </b-col>
-    <b-col md="6">
-        <b-form-group label="L Level:" label-for="L_Level">
-          <b-form-input id="L_Level" v-model="tankData.L_Level" :disabled="user_type !== 'Engineer'"  required></b-form-input>
-        </b-form-group>
-    </b-col>
-    <b-col md="6">
-        <b-form-group label="HH Level:" label-for="HH_Level">
-          <b-form-input id="HH_Level" v-model="tankData.HH_Level" :disabled="user_type !== 'Engineer'"  required></b-form-input>
-        </b-form-group>
-    </b-col>
-    <b-col md="6">
-        <b-form-group label="H Level:" label-for="H_Level">
-          <b-form-input id="H_Level" v-model="tankData.H_Level" :disabled="user_type !== 'Engineer'"  required></b-form-input>
-        </b-form-group>
-    </b-col> -->
-    <!-- <b-col md="6">
-        <b-form-group label="Reorder:" label-for="Reorder" >
-          <b-form-input id="Reorder" v-model="tankData.Reorder" :disabled="user_type !== 'Engineer'" required></b-form-input>
-        </b-form-group>
-    </b-col>
-    <b-col md="6">
-        <b-form-group label="Leak:" label-for="Leak">
-          <b-form-input id="Leak" v-model="tankData.Leak" :disabled="user_type !== 'Engineer'" required></b-form-input>
-        </b-form-group>
-    </b-col> -->
-    <!-- <b-col md="6">
-        <b-form-group label="Offset:" label-for="Offset">
-          <b-form-input id="Offset" v-model="tankData.Offset" :disabled="user_type !== 'Engineer'" required></b-form-input>
-        </b-form-group>
-    </b-col> -->
-    <!-- <b-col md="6">
-        <b-form-group label="Po4:" label-for="Po4">
-          <b-form-input id="Po4" v-model="tankData.Po4" :disabled="user_type !== 'Engineer'" required></b-form-input>
-        </b-form-group>
-    </b-col> -->
-
-    <!-- <b-col md="6">
-            <b-form-group label="Display unit:" label-for="DUOM">
-            <select v-model="tankData.Display_unit" class="custom-select" placeholder="Select Display unit" :disabled="user_type !== 'Engineer'">
-                <option disabled value="">Select Display unit</option>
-                <option v-for="item in measures" :key="item.id" :value="item.abbreviation">{{ item.abbreviation }}</option>
-            </select>
-            </b-form-group>
-    </b-col> -->
-
     <b-col md="6">
         <b-form-group label="Tank height:" label-for="Tank_height">
           <b-form-input id="Tank_height" v-model="tankData.Tank_height" :disable="user_type !== 'Engineer'" required></b-form-input>
         </b-form-group>
     </b-col>
-    <!-- <b-col md="6">
-        <b-form-group label="Anomaly period:" label-for="Anomaly_period">
-          <b-form-input id="Anomaly_period" v-model="tankData.Anomaly_period" :disabled="user_type !== 'Engineer'" required></b-form-input>
-        </b-form-group>
-    </b-col>
-    <b-col md="6">
-        <b-form-group label="Anomaly volume:" label-for="Anomaly_volume">
-          <b-form-input id="Anomaly_volume" v-model="tankData.Anomaly_volume" :disabled="user_type !== 'Engineer'" required></b-form-input>
-        </b-form-group>
-    </b-col>
-    <b-col md="6">
-        <b-form-group label="Tank Note:" label-for="Tank_Note">
-          <b-form-input id="Tank_Note" v-model="tankData.Tank_Note" :disabled="user_type !== 'Engineer'" required></b-form-input>
-    </b-form-group> -->
-    <!-- </b-col> -->
+
     </b-row>
         <br />
         <b-button type="submit" variant="outline-secondary">Create</b-button>
