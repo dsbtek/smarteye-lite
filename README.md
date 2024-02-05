@@ -10,31 +10,32 @@ This guide will walk you through the process of installing and running the smart
 
 ## Installation Steps
 
-1. **Download the App Installer Script:**
-
-   You can download the installer script from the following link:
-   [Download Installer Script](link_to_your_script)
+1. **Clone the repo:**
+git clone https://github.com/dsbtek/smarteye-lite.git
 
 2. **Open a Terminal:**
 
    Open a terminal on your Raspberry Pi. You can usually find the terminal application in the Raspberry Pi desktop environment.
 
-3. **Navigate to the Downloaded Script:**
+3. **Navigate to the Clone folder/backend:**
 
-   Use the `cd` command to navigate to the directory where you downloaded the installer script.
+   Use the `cd` command to navigate to the directory where you clone the project.
 
-   ```bash
-   cd /path/to/script/directory
+   
+   cd /smarteye-lite/backend
 
-4. **Make the Script Executable:**
+4. **Activate the environment:**
 
-    chmod +x installer.sh
+    python3 -m venv venv
+    source venv/bin/activate if you are on Ubintu or MacOs
 
-5. **Run the Installer Script:**
+6. **Install the dependencies:**
 
-    ./installer.sh
+   pip3 install "fastapi[all]"
+   pip3 install sqlalchemy
 
 ## How to send request to the app endpoint from the devices on the same network
+
 
 **To call the endpoints of app from the other devices on the same wireless or locall network, you can follow the guide:**
 
