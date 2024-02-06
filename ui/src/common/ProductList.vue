@@ -107,11 +107,18 @@ export default {
           this.toggleEditProduct = false;
           
       },
+      formatCreatedAt(data) {
+          return data.forEach(tank => {
+              tank.Created_at = new Date(tank?.Created_at).toLocaleString('en-US', {timeZone: 'UTC'});
+              
+          });
+      },
       fetchProducts() {
         // Fetch the list of registered products from the server
         axios.get('http://localhost:8000/products/')
           .then(response => {
             this.products = response.data;
+            this.formatCreatedAt(this.products)
           })
           .catch(error => {
             console.error('Error fetching products:', error.response);

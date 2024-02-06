@@ -122,6 +122,12 @@
             this.toggleEditTank = false;
             
         },
+        formatCreatedAt(data) {
+          return data.forEach(tank => {
+              tank.Created_at = new Date(tank?.Created_at).toLocaleString('en-US', {timeZone: 'UTC'});
+              
+          });
+      },
       createTank() {
         // Your tank creation logic
         axios.post('http://localhost:8000/tanks/', this.tankData)
@@ -139,6 +145,7 @@
         axios.get('http://localhost:8000/tanks/')
           .then(response => {
             this.tanks = response.data;
+            this.formatCreatedAt(this.tanks)
           })
           .catch(error => {
             console.error('Error fetching tanks:', error.response);
