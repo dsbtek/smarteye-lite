@@ -431,7 +431,7 @@ def update_tank(tank_id: int, tank_update: schemas.TankUpdate, db: Session = Dep
 
 # Endpoint to get a list of all tanks
 @router.get("/tanks/")
-def get_tanks(skip: int = 0, limit: int = 10, db: Session = Depends(get_db)):
+def get_tanks(skip: int = 0, limit: int = 30, db: Session = Depends(get_db)):
     tanks = db.query(models.Tanks).offset(skip).limit(limit).all()
     return  [
                 {
