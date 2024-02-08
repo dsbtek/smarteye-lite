@@ -97,11 +97,6 @@ export default {
   },
   
   created() {
-     // Retrieve the data from localStorage
-     const user = localStorage.getItem('user');
-      // Parse the JSON string back to an object
-      const parsedData = JSON.parse(user);
-      this.user_type = parsedData.user_type;
     // Call the fetchData method every 90 seconds
     setInterval(this.fetchData, 9000); // 90 seconds = 90,000 milliseconds
     this.fetchProducts()
