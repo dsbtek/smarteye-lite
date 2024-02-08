@@ -6,15 +6,15 @@
           <b-form @submit.prevent="login">
             <b-form-group
               id="username-group"
-              label="Email:"
+              label="Username:"
               label-for="username"
-              description="Enter your email"
+              description="Enter your username"
             >
               <b-form-input
                 id="username"
                 v-model="username"
                 required
-                placeholder="Enter your email"
+                placeholder="Enter your username"
               ></b-form-input>
             </b-form-group>
 

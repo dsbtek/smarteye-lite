@@ -9,7 +9,7 @@
         <div class="table-title">
              <h3>List of Tanks</h3> 
         </div>
-        <div class="table-add-tank" :disabled="user_type !== 'Engineer'" @click="add_Tank">
+        <div v-if="user_type !== 'Engineer'" class="table-add-tank" :disabled="user_type !== 'Engineer'" @click="add_Tank">
              <h1>+</h1>
         </div>
 
@@ -17,8 +17,8 @@
       
       <b-table v-if="tanks.length>0" striped hover :items="tanks" :fields="fields" class="t-color">
       <template v-slot:cell(action)="data">
-        <b-button @click="editTank(data.item)"  variant="outline-secondary">Edit</b-button>
-        <b-button class="ms-2" @click="deleteTank(data.item)"  variant="outline-danger">Delete</b-button>
+        <b-button v-if="user_type !== 'Engineer'" @click="editTank(data.item)"  variant="outline-secondary">Edit</b-button>
+        <b-button v-if="user_type !== 'Engineer'" class="ms-2" @click="deleteTank(data.item)"  variant="outline-danger">Delete</b-button>
       </template>
     </b-table>
     <div v-else class="no-rec">

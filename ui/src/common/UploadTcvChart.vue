@@ -1,6 +1,6 @@
 <template>
     <b-form @submit.prevent="uploadFile">
-      <div class="wrap-upload">
+      <div v-if="user_type !== 'Engineer'" class="wrap-upload">
         <el-upload
           class="upload-demo"
           drag
@@ -39,6 +39,15 @@
         },
         products: [],
       };
+    },
+    created() {
+        this.tankData.Created_at = new Date().toISOString();
+       // Retrieve the data from localStorage
+      const user = localStorage.getItem('user');
+      // Parse the JSON string back to an object
+      const parsedData = JSON.parse(user);
+      this.user_type = parsedData.user_type;
+      
     },
     methods: {
         closeModal() {
