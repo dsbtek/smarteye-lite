@@ -64,7 +64,7 @@
 
     <b-col md="6">
         <b-form-group label="Tank height:" label-for="Tank_height">
-          <b-form-input id="Tank_height" v-model="tankData.Tank_height" :disable="user_type !== 'Engineer'" required></b-form-input>
+          <b-form-input id="Tank_height" v-model="tankData.Tank_height" :disabled="user_type !== 'Engineer'" required></b-form-input>
         </b-form-group>
     </b-col>
 

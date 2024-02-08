@@ -1,6 +1,6 @@
 <template>
     <b-form @submit.prevent="uploadFile">
-      <div v-if="user_type !== 'Engineer'" class="wrap-upload">
+      <div class="wrap-upload">
         <el-upload
           class="upload-demo"
           drag
@@ -37,6 +37,7 @@
           Name: '',
           Created_at: '',
         },
+        user_type:'',
         products: [],
       };
     },

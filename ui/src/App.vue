@@ -46,7 +46,7 @@
         </b-modal>
 
         <b-modal id="tcv-chart" ref="tcv-chart" size="md" centered hide-footer title="Upload TCV chart">
-          <UploadTcvChart />
+          <UploadTcvChart v-if="user_type === 'Engineer'"  />
         </b-modal>
 
       </div>
