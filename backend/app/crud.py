@@ -80,7 +80,7 @@ async def create_or_update_temp_tank_logs(tank_datas: List[List[str]], db: Sessi
         floating_point_number_ = float(vol)
         tcvx = find_compensated_value(existing_tcv_chart.file_path, int(floating_point_number), density)
         if tcvx == None:
-            tcvx = '0.0'
+            tcvx = 0.0
         ctcv =float(tcvx) * floating_point_number_
         update_data = {
             'date_time': date_time,
