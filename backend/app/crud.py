@@ -77,7 +77,7 @@ async def create_or_update_temp_tank_logs(tank_datas: List[List[str]], db: Sessi
         existing_tcv_chart = db.query(models.TcvCharts).first()
         density = get_tank.product.density
         floating_point_number = float(avg_temp)
-        floating_point_number_ = float(vol)
+        floating_point_number_ = float(vol) * 1000
         tcvx = find_compensated_value(existing_tcv_chart.file_path, int(floating_point_number), density)
         if tcvx == None:
             tcvx = 0.0
@@ -93,7 +93,7 @@ async def create_or_update_temp_tank_logs(tank_datas: List[List[str]], db: Sessi
             'temp_5': temp_5,
             'avg_temp': avg_temp,
             'tank_id': tank_id,
-            'vol':float(vol) * 1000,
+            'vol':floating_point_number_,
             'tcv': ctcv,
             'local_id': local_id,
             'height': height,
