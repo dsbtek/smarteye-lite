@@ -14,6 +14,7 @@
           :auto-upload="false"
           :limit="1"
           :file-list="fileList"
+          :before-upload="beforeUpload"
         >
           <i class="el-icon-upload"></i>
           <div class="el-upload__text">Drop TCV chart file here or <em>click to upload</em></div>
@@ -60,6 +61,13 @@
         console.log(err);
         this.alertError(`Error uploading the chart`)
       },
+      beforeUpload(file) {
+      const isCSV = file.name.toLowerCase().endsWith('.csv');
+      if (!isCSV) {
+        this.alertError('Only CSV files are allowed!');
+      }
+      return isCSV;
+    },
       alertError(msg) {
         this.$notify.error({
           title: 'An Error Occured',
