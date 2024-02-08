@@ -1,6 +1,7 @@
 import json
 import math
-from fastapi import APIRouter, Depends, HTTPException, Response, status, Request
+import os
+from fastapi import APIRouter, Depends, HTTPException, Response, status, Request, File, UploadFile
 from fastapi.security import OAuth2PasswordBearer
 from sqlalchemy.orm import Session
 from jose import JWTError, jwt
@@ -12,6 +13,8 @@ from passlib.context import CryptContext
 from pydantic import ValidationError
 from .schemas import ProductUpdate
 from fastapi.responses import JSONResponse
+import pandas as pd
+from io import StringIO
 
 router = APIRouter()
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
@@ -53,12 +56,32 @@ def read_user(user_id: int, db: Session = Depends(get_db)):
         raise HTTPException(status_code=404, detail="User not found")
     return convert_model_to_dict(db_user)
 
+def find_compensated_value(csv_file_path, temperature, density):
+    if os.path.exists(csv_file_path):
+        # Read the CSV file into a DataFrame
+        df = pd.read_csv(csv_file_path, index_col='Temperature')
+        try:
+            # Find the compensated value at the specified temperature and density
+            compensated_value = df.loc[temperature, str(density)]
+            return compensated_value
+        except KeyError:
+            return None
+
 # Create or update tank logs with temperature
 @router.post("/tank-logs-temp/")
 async def create_or_update_temp_tank_logs(tank_datas: List[List[str]], db: Session = Depends(get_db)):
     for tank_data in tank_datas:
         local_id, date_time, multicont_polling_address, tank_index, temp_1, temp_2, temp_3, temp_4, temp_5, avg_temp, tank_id, vol, tcv, height, capacity, atg_time = tank_data
         existing_record = db.query(models.TankTemperature).filter(models.TankTemperature.tank_id == tank_id).first()
+        get_tank = db.query(models.Tanks).filter(models.Tanks.id==tank_id).first()
+        existing_tcv_chart = db.query(models.TcvCharts).first()
+        density = get_tank.product.density
+        floating_point_number = float(avg_temp)
+        floating_point_number_ = float(vol)
+        tcvx = find_compensated_value(existing_tcv_chart.file_path, int(floating_point_number), density)
+        if tcvx == None:
+            tcvx = '0.0'
+        ctcv =float(tcvx) * floating_point_number_
         update_data = {
             'date_time': date_time,
             'multicont_polling_address': multicont_polling_address,
@@ -71,7 +94,7 @@ async def create_or_update_temp_tank_logs(tank_datas: List[List[str]], db: Sessi
             'avg_temp': avg_temp,
             'tank_id': tank_id,
             'vol':float(vol) * 1000,
-            'tcv': tcv,
+            'tcv': ctcv,
             'local_id': local_id,
             'height': height,
             'capacity': capacity,
@@ -84,7 +107,6 @@ async def create_or_update_temp_tank_logs(tank_datas: List[List[str]], db: Sessi
             db_latest_tank_log_temp = models.TankTemperature(**update_data)
             db.add(db_latest_tank_log_temp)
             db.commit()
-
     return {"message": "Record(s) Inserted/Updated Successfully"}
 
 # Get all tank logs with temperature
@@ -520,3 +542,37 @@ def get_tanks(skip: int = 0, limit: int = 10, db: Session = Depends(get_db)):
 async def logout(current_user: schemas.TokenData = Depends(get_current_user)):
     print(current_user)
     return {"message": "Logout successful"}
+
+@router.post("/upload")
+async def upload_file(file: UploadFile = File(...), file_path: str = None, db: Session = Depends(get_db)):
+    try:
+        # Create the "uploads" directory if it doesn't exist
+        uploads_dir = "./uploads"
+        os.makedirs(uploads_dir, exist_ok=True)
+
+        # Save file to a designated location
+        file_save_path = f"{uploads_dir}/{file.filename}"  # Update with your desired path
+        with open(file_save_path, "wb") as file_object:
+            file_object.write(file.file.read())
+
+        # Check if a record exists in the database
+        existing_tcv_chart = db.query(models.TcvCharts).first()
+
+        if existing_tcv_chart:
+            # Delete the previously uploaded file
+            if existing_tcv_chart.file_path and os.path.exists(existing_tcv_chart.file_path):
+                os.remove(existing_tcv_chart.file_path)
+
+            # Update the existing record
+            existing_tcv_chart.file_path = file_save_path
+        else:
+            # Create a new record
+            tcv_chart = models.TcvCharts(file_path=file_save_path)
+            db.add(tcv_chart)
+
+        db.commit()
+
+        return {"filename": file.filename, "file_path": file_save_path}
+    except IntegrityError as e:
+        db.rollback()
+        raise HTTPException(status_code=500, detail=f"Error saving file: {str(e)}")

@@ -153,3 +153,7 @@ class TankTemperature(Base):
     db_fill_time = Column(DateTime, nullable=False, server_default=func.current_timestamp(), onupdate=func.current_timestamp())
     
     
+class TcvCharts(Base):
+    __tablename__ = "tcv_charts"
+    id = Column(Integer, primary_key=True, index=True)
+    file_path = Column(String)

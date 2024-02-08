@@ -33,6 +33,8 @@ git clone https://github.com/dsbtek/smarteye-lite.git
 
    pip3 install "fastapi[all]"
    pip3 install sqlalchemy
+   pip3 install pandas
+    pip3 install python-multipart
 
 ## How to send request to the app endpoint from the devices on the same network
 

@@ -101,7 +101,9 @@ methods:{
 
     // Convert the time difference to hours
     const hoursDifference = timeDifference / (1000 * 60 * 60);
-    if (hoursDifference > 2) {
+    if (hoursDifference > 24) {
+        return "Offline";
+    } else if (hoursDifference > 4) {
         return "Offline";
     } else {
         return "Online";

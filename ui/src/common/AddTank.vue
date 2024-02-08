@@ -187,7 +187,6 @@ export default {
     };
   },
   created() {
-      this.tankData.Created_at = new Date().toISOString();
       // Retrieve the data from localStorage
       const user = localStorage.getItem('user');
       // Parse the JSON string back to an object
@@ -218,7 +217,7 @@ export default {
 
       this.tankData['product'] = this.selectedProductId.id
       this.tankData['Density'] = this.selectedProductId.density
-
+      this.tankData.Created_at = new Date().toISOString();
       axios.post('http://localhost:8000/tanks/', this.tankData)
         .then(response => {
           console.log(response)

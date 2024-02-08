@@ -15,8 +15,9 @@
           <b-dropdown id="dropdown-1" text="Settings" class="m-md-2">
             <b-dropdown-item v-if="!checkToken" @click="$bvModal.show('login-modal')">Login</b-dropdown-item>
             <b-dropdown-item v-if="checkToken" @click="logout">Logout</b-dropdown-item>
-            <b-dropdown-item v-if="checkToken" @click="$bvModal.show('tank-modal')">Tanks</b-dropdown-item>
             <b-dropdown-item v-if="checkToken" @click="$bvModal.show('product-modal')">Products</b-dropdown-item>
+            <b-dropdown-item v-if="checkToken" @click="$bvModal.show('tank-modal')">Tanks</b-dropdown-item>
+            <b-dropdown-item v-if="checkToken" @click="$bvModal.show('tcv-chart')">Upload TCV chart</b-dropdown-item>
           </b-dropdown>
         </div>
       </div>
@@ -44,6 +45,10 @@
           <TankList />
         </b-modal>
 
+        <b-modal id="tcv-chart" ref="tcv-chart" size="md" centered hide-footer title="Upload TCV chart">
+          <UploadTcvChart />
+        </b-modal>
+
       </div>
 
     </div>
@@ -61,6 +66,7 @@ import 'font-awesome/fonts/fontawesome-webfont.ttf';
 import LoginUser from './components/LoginUser.vue'
 import ProductList from './common/ProductList.vue'
 import TankList from './common/TankList.vue'
+import UploadTcvChart from './common/UploadTcvChart.vue';
 
 
 export default {
@@ -70,6 +76,7 @@ export default {
     LoginUser,
     ProductList,
     TankList,
+    UploadTcvChart
   },
   data() {
     return {
@@ -94,6 +101,10 @@ export default {
     this.fetchProducts()
   },
   methods: {
+    hideModal() {
+      return this.$bvModal.$refs['tcv-chart'].hide()
+      // this.$refs['tcv-chart'].hide();
+    },
     fetchData() {
       axios.get('http://localhost:8000/tank-logs-temp/')
         .then(response => {
@@ -110,7 +121,6 @@ export default {
   if (filterItem === '' || filterItem === 'All') {
     return this.tankData;
   }
-  
   const itemFilter = this.tankData.filter(item => item.product === filterItem);
   return itemFilter;
 },
@@ -124,9 +134,9 @@ export default {
       window.location.reload()
     },
     fetchProducts() {
-  // Fetch the list of registered products from the server
-  axios.get('http://localhost:8000/products/')
-    .then(response => {
+      // Fetch the list of registered products from the server
+      axios.get('http://localhost:8000/products/')
+      .then(response => {
       this.products.push(...response.data);
     })
     .catch(error => {

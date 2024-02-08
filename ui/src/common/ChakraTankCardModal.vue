@@ -19,7 +19,7 @@
 
         <div class="fuel-info-item">
           <p>Capacity: </p>
-          <p>{{ modalContent?.capacity }} Ltrs</p>
+          <p>{{ formattedNumber(modalContent?.capacity) }} Ltrs</p>
         </div>
 
         <div class="fuel-info-item">
