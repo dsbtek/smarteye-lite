@@ -134,7 +134,7 @@ def get_all_temp_tank_logs(db: Session = Depends(get_db)):
                     'temp_4': temp_tank_logs.temp_4,
                     'temp_5': temp_tank_logs.temp_5,
                     'avg_temp': temp_tank_logs.avg_temp,
-                    'height': tank.Tank_height,
+                    'height': temp_tank_logs.height,
                     'capacity': tank.Capacity,
                     'tank_name': tank.Name,
                     'tank_id': tank.id,
