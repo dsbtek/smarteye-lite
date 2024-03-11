@@ -138,7 +138,7 @@ def get_all_temp_tank_logs(db: Session = Depends(get_db)):
                     'capacity': tank.Capacity,
                     'tank_name': tank.Name,
                     'tank_id': tank.id,
-                    'tcv': temp_tank_logs.tcv,
+                    'tcv': temp_tank_logs.tcv or '0.0',
                     'atg_time': temp_tank_logs.atg_time,
                     'tcv': temp_tank_logs.tcv,
                     'date_time': temp_tank_logs.date_time,
