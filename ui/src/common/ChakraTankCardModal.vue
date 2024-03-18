@@ -3,88 +3,92 @@
     <div class="fuel-card">
       <div class="circle-container">
         <TankLevelImage
-              :volume="modalContent?.vol"
-              :capacity="modalContent?.capacity"
-              :percent="fillPercentage"
-            />
+          :volume="modalContent?.vol"
+          :capacity="modalContent?.capacity"
+          :percent="fillPercentage"
+        />
       </div>
     </div>
 
     <div class="tank-modal-items">
       <div class="fuel-info">
         <div class="fuel-info-item fuel-info-item-first">
-          <p>Tank Name: </p>
+          <p>Tank Name:</p>
           <p>{{ modalContent?.tank_name }}</p>
         </div>
 
         <div class="fuel-info-item">
-          <p>Capacity: </p>
+          <p>Capacity:</p>
           <p>{{ formattedNumber(modalContent?.capacity) }} Ltrs</p>
         </div>
 
         <div class="fuel-info-item">
-          <p>Volume: </p>
+          <p>Volume:</p>
           <p>{{ formattedNumber(modalContent?.vol) }} Ltrs</p>
         </div>
 
-        <div class ="fuel-info-item">
-          <p>TCV: </p>
+        <div class="fuel-info-item">
+          <p>TCV:</p>
           <p>{{ formattedNumber(modalContent?.tcv) }} Ltrs</p>
         </div>
 
         <div class="fuel-info-item">
-          <p>Height: </p>
+          <p>Height:</p>
           <p>{{ formattedNumber(modalContent?.height) }} mm</p>
         </div>
 
         <div class="fuel-info-item">
-          <p>Product: </p>
+          <p>Product:</p>
           <p>{{ modalContent?.product }}</p>
         </div>
 
         <div class="fuel-info-item">
-          <p>Av. Temp: </p>
+          <p>Av. Temp:</p>
           <p>{{ modalContent?.avg_temp }} &#8451;</p>
         </div>
 
         <div class="fuel-info-item">
-          <p>Temp 1: </p>
+          <p>Temp 1:</p>
           <p>{{ modalContent?.temp_1 }} &#8451;</p>
         </div>
 
         <div class="fuel-info-item">
-          <p>Temp 2: </p>
+          <p>Temp 2:</p>
           <p>{{ modalContent.temp_2 }} &#8451;</p>
         </div>
 
         <div class="fuel-info-item">
-          <p>Temp 3: </p>
+          <p>Temp 3:</p>
           <p>{{ modalContent?.temp_3 }} &#8451;</p>
         </div>
 
         <div class="fuel-info-item">
-          <p>Temp 4: </p>
+          <p>Temp 4:</p>
           <p>{{ modalContent?.temp_4 }} &#8451;</p>
         </div>
 
         <div class="fuel-info-item">
-          <p>Temp 5: </p>
+          <p>Temp 5:</p>
           <p>{{ modalContent?.temp_5 }} &#8451;</p>
         </div>
 
         <div class="fuel-info-item">
-          <p>Last Updated Time: </p>
+          <p>Last Updated Time:</p>
           <p>{{ modalContent?.atg_time }}</p>
         </div>
 
-        <div class="fuel-info-item ">
-          <p>Temperature Status: </p>
-          <p :class="getHourDifference(modalContent?.date_time)">{{ getHourDifference(modalContent?.date_time) }}</p>
+        <div class="fuel-info-item">
+          <p>Temperature Status:</p>
+          <p :class="getHourDifference(modalContent?.date_time)">
+            {{ getHourDifference(modalContent?.date_time) }}
+          </p>
         </div>
 
         <div class="fuel-info-item fuel-info-item-last">
           <p>ATG Status:</p>
-          <p :class="getHourDifference(modalContent?.atg_time)">{{ getHourDifference(modalContent?.atg_time) }}</p>
+          <p :class="getHourDifference(modalContent?.atg_time)">
+            {{ getHourDifference(modalContent?.atg_time) }}
+          </p>
         </div>
       </div>
     </div>
@@ -99,53 +103,62 @@ export default {
     modalContent: Object,
   },
   components: {
-    TankLevelImage
+    TankLevelImage,
   },
   methods: {
     handleClick() {
-      this.$emit('closeModal');
+      this.$emit("closeModal");
     },
     getHourDifference(dateTime2) {
-    const dateTime1 = new Date();
-    const timestamp1 = new Date(dateTime1).getTime();
-    const timestamp2 = new Date(dateTime2).getTime();
+      const dateTime1 = new Date();
+      const timestamp1 = new Date(dateTime1).getTime();
+      const timestamp2 = new Date(dateTime2).getTime();
 
-    // Check if either date is invalid
-    if (isNaN(timestamp1) || isNaN(timestamp2)) {
+      // Check if either date is invalid
+      if (isNaN(timestamp1) || isNaN(timestamp2)) {
         return "Inactive";
-    }
+      }
 
-    // Calculate the time difference in milliseconds
-    const timeDifference = Math.abs(timestamp2 - timestamp1);
-    
-    // Check if timeDifference is NaN (which could happen in some edge cases)
-    if (isNaN(timeDifference)) {
+      // Calculate the time difference in milliseconds
+      const timeDifference = Math.abs(timestamp2 - timestamp1);
+
+      // Check if timeDifference is NaN (which could happen in some edge cases)
+      if (isNaN(timeDifference)) {
         return "Inactive";
-    }
+      }
 
-    // Convert the time difference to hours
-    const hoursDifference = timeDifference / (1000 * 60 * 60);
-    if (hoursDifference > 2) {
+      // Convert the time difference to hours
+      const hoursDifference = timeDifference / (1000 * 60 * 60);
+      if (hoursDifference > 24) {
         return "Offline";
-    } else {
+      } else if (hoursDifference > 4) {
+        return "Offline";
+      } else {
         return "Online";
-    }
-},
-  formattedNumber(num){ return num.toLocaleString('en-US', {
-    minimumFractionDigits: 3,
-    maximumFractionDigits: 3,
-    });
-  }
+      }
+    },
+    formattedNumber(num) {
+      return num.toLocaleString("en-US", {
+        minimumFractionDigits: 3,
+        maximumFractionDigits: 3,
+      });
+    },
   },
   computed: {
-  fillPercentage() {
-    if (this.modalContent && this.modalContent?.vol !== undefined && this.modalContent?.capacity !== undefined) {
-      return ((this.modalContent?.vol / this.modalContent?.capacity) * 100).toFixed();
-    }
-    return 0;
+    fillPercentage() {
+      if (
+        this.modalContent &&
+        this.modalContent?.vol !== undefined &&
+        this.modalContent?.capacity !== undefined
+      ) {
+        return (
+          (this.modalContent?.vol / this.modalContent?.capacity) *
+          100
+        ).toFixed();
+      }
+      return 0;
+    },
   },
-},
-
 };
 </script>
 
@@ -163,8 +176,8 @@ export default {
   /* padding: 10px; */
   height: 500px;
   width: 800px;
-  background-color:rgb(79, 85, 78);
-  color:aliceblue;
+  background-color: rgb(79, 85, 78);
+  color: aliceblue;
   border-radius: 10px;
 }
 
@@ -176,7 +189,7 @@ export default {
   /* background-color:rgb(9, 56, 56); */
   color: rgb(255, 255, 255);
   width: 50%;
-  height:100%;
+  height: 100%;
 }
 .fuel-card {
   display: flex;
@@ -247,17 +260,17 @@ p {
 }
 .Online {
   border-radius: 5px;
-  background-color:#04ab0c;
+  background-color: #04ab0c;
   width: 70px;
 }
 .Offline {
   border-radius: 5px;
-  background-color:#f1f116;
+  background-color: #f1f116;
   width: 70px;
 }
 .Inactive {
   border-radius: 5px;
-  background-color:#f1168b;
+  background-color: #f1168b;
   width: 70px;
 }
 
@@ -273,19 +286,19 @@ p {
   }
 }
 
- /* Define the fill animation */
- @keyframes fillAnimation {
-    0% {
-      y: 100%;
-      height: 0;
-    }
-    100% {
-      y: 0;
-      height: 100%;
-    }
+/* Define the fill animation */
+@keyframes fillAnimation {
+  0% {
+    y: 100%;
+    height: 0;
   }
-  
-  .liquid-rect {
-    animation: fillAnimation 2s ease;
+  100% {
+    y: 0;
+    height: 100%;
   }
+}
+
+.liquid-rect {
+  animation: fillAnimation 2s ease;
+}
 </style>
