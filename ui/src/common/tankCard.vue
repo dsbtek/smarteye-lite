@@ -2,57 +2,60 @@
   <div class="fuel-card">
     <div class="circle-container">
       <TankLevelImage
-            :volume="tankData?.vol"
-            :capacity="tankData?.capacity"
-            :percent="fillPercentage"
-          />
+        :volume="tankData?.vol"
+        :capacity="tankData?.capacity"
+        :percent="fillPercentage"
+      />
     </div>
     <div class="fuel-info">
       <div class="fuel-info-item">
-        <p>Tank Name: </p>
+        <p>Tank Name:</p>
         <p>{{ tankData?.tank_name }}</p>
       </div>
 
       <div class="fuel-info-item">
-        <p>Capacity: </p>
+        <p>Capacity:</p>
         <p>{{ formattedNumber(tankData?.capacity) }} L</p>
       </div>
 
       <div class="fuel-info-item">
-        <p>Volume: </p>
+        <p>Volume:</p>
         <p>{{ formattedNumber(tankData?.vol) }} L</p>
       </div>
 
-      <div class ="fuel-info-item">
-        <p>TCV: </p>
+      <div class="fuel-info-item">
+        <p>TCV:</p>
         <p>{{ formattedNumber(tankData?.tcv) }} L</p>
       </div>
 
       <div class="fuel-info-item">
-        <p>Height: </p>
+        <p>Height:</p>
         <p>{{ formattedNumber(tankData?.height) }} mm</p>
       </div>
 
       <div class="fuel-info-item">
-        <p>Product: </p>
+        <p>Product:</p>
         <p>{{ tankData?.product }}</p>
       </div>
 
       <div class="fuel-info-item-last">
-        <p>Av. Temp: </p>
+        <p>Av. Temp:</p>
         <p>{{ tankData?.avg_temp }} &#8451;</p>
       </div>
 
       <div class="fuel-info-item">
-          <p>Temperature Status: </p>
-          <p :class="getHourDifference(tankData?.date_time)">{{ getHourDifference(tankData?.date_time) }}</p>
-        </div>
+        <p>Temperature Status:</p>
+        <p :class="getHourDifference(tankData?.date_time)">
+          {{ getHourDifference(tankData?.date_time) }}
+        </p>
+      </div>
 
-        <div class="fuel-info-item fuel-info-item-last">
-          <p>ATG Status: </p>
-          <p :class="getHourDifference(tankData?.atg_time)">{{ getHourDifference(tankData?.atg_time) }}</p>
-        </div>
-      
+      <div class="fuel-info-item fuel-info-item-last">
+        <p>ATG Status:</p>
+        <p :class="getHourDifference(tankData?.atg_time)">
+          {{ getHourDifference(tankData?.atg_time) }}
+        </p>
+      </div>
     </div>
   </div>
 </template>
@@ -65,56 +68,63 @@ export default {
     tankData: Object,
   },
   components: {
-    TankLevelImage
+    TankLevelImage,
   },
   data() {
     return {
-      liquidColor: '#c5b550',
+      liquidColor: "#c5b550",
     };
   },
   computed: {
-  fillPercentage() {
-    if (this.tankData && this.tankData?.vol !== undefined && this.tankData?.capacity !== undefined) {
-      return ((this.tankData?.vol / this.tankData?.capacity) * 100).toFixed();
-    }
-    return 0;
+    fillPercentage() {
+      if (
+        this.tankData &&
+        this.tankData?.vol !== undefined &&
+        this.tankData?.capacity !== undefined
+      ) {
+        return ((this.tankData?.vol / this.tankData?.capacity) * 100).toFixed();
+      }
+      return 0;
+    },
   },
-},
-methods:{
-  getHourDifference(dateTime2) {
-    const dateTime1 = new Date();
-    const timestamp1 = new Date(dateTime1).getTime();
-    const timestamp2 = new Date(dateTime2).getTime();
+  methods: {
+    getHourDifference(dateTime2) {
+      const dateTime1 = new Date();
+      const timestamp1 = new Date(dateTime1).getTime();
+      const timestamp2 = new Date(dateTime2).getTime();
 
-    // Check if either date is invalid
-    if (isNaN(timestamp1) || isNaN(timestamp2)) {
+      // Check if either date is invalid
+      if (isNaN(timestamp1) || isNaN(timestamp2)) {
         return "Inactive";
-    }
+      }
 
-    // Calculate the time difference in milliseconds
-    const timeDifference = Math.abs(timestamp2 - timestamp1);
-    
-    // Check if timeDifference is NaN (which could happen in some edge cases)
-    if (isNaN(timeDifference)) {
+      // Calculate the time difference in milliseconds
+      const timeDifference = Math.abs(timestamp2 - timestamp1);
+
+      // Check if timeDifference is NaN (which could happen in some edge cases)
+      if (isNaN(timeDifference)) {
         return "Inactive";
-    }
+      }
 
-    // Convert the time difference to hours
-    const hoursDifference = timeDifference / (1000 * 60 * 60);
-    if (hoursDifference > 24) {
+      // Convert the time difference to hours
+      const hoursDifference = timeDifference / (1000 * 60 * 60);
+      if (hoursDifference > 48) {
+        return "Inactive";
+      } else if (hoursDifference > 24) {
+        return "Idle";
+      } else if (hoursDifference > 4) {
         return "Offline";
-    } else if (hoursDifference > 4) {
-        return "Offline";
-    } else {
+      } else {
         return "Online";
-    }
-},
-  formattedNumber(num){ return num.toLocaleString('en-US', {
-    minimumFractionDigits: 3,
-    maximumFractionDigits: 3,
-    });
-  }
-}
+      }
+    },
+    formattedNumber(num) {
+      return num.toLocaleString("en-US", {
+        minimumFractionDigits: 3,
+        maximumFractionDigits: 3,
+      });
+    },
+  },
 };
 </script>
 
@@ -182,18 +192,24 @@ p {
 
 .Online {
   border-radius: 5px;
-  background-color:#04ab0c;
+  background-color: #04ab0c;
   width: 70px;
 }
 .Offline {
   border-radius: 5px;
-  background-color:#f1f116;
+  background-color: #f1f116;
+  width: 70px;
+}
+
+.Idle {
+  border-radius: 5px;
+  background-color: #f18316;
   width: 70px;
 }
 
 .Inactive {
   border-radius: 5px;
-  background-color:#f1168b;
+  background-color: #f1168b;
   width: 70px;
 }
 
@@ -218,19 +234,19 @@ p {
   }
 }
 
- /* Define the fill animation */
- @keyframes fillAnimation {
-    0% {
-      y: 100%;
-      height: 0;
-    }
-    100% {
-      y: 0;
-      height: 100%;
-    }
+/* Define the fill animation */
+@keyframes fillAnimation {
+  0% {
+    y: 100%;
+    height: 0;
   }
+  100% {
+    y: 0;
+    height: 100%;
+  }
+}
 
-  .liquid-rect {
-    animation: fillAnimation 2s ease;
-  }
+.liquid-rect {
+  animation: fillAnimation 2s ease;
+}
 </style>

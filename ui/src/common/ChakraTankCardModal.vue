@@ -129,8 +129,10 @@ export default {
 
       // Convert the time difference to hours
       const hoursDifference = timeDifference / (1000 * 60 * 60);
-      if (hoursDifference > 24) {
-        return "Offline";
+      if (hoursDifference > 48) {
+        return "Inactive";
+      } else if (hoursDifference > 24) {
+        return "Idle";
       } else if (hoursDifference > 4) {
         return "Offline";
       } else {
@@ -266,6 +268,12 @@ p {
 .Offline {
   border-radius: 5px;
   background-color: #f1f116;
+  width: 70px;
+}
+
+.Idle {
+  border-radius: 5px;
+  background-color: #f18316;
   width: 70px;
 }
 .Inactive {
